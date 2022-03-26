@@ -86,6 +86,11 @@ object Gradient{
         Brush.linearGradient(listOf(Color(0xFF96E4DF),Color(0xFF4DCCC6))),
         Brush.linearGradient(listOf(Color(0xFF864BA2),Color(0xFFBF3A30))),
         Brush.linearGradient(listOf(Color(0xFF39E5B6),Color(0xFF70B2D9))),
+        Brush.linearGradient(listOf(Color(0xFF233329),Color(0xFFABE9CD))),
+        Brush.linearGradient(listOf(Color(0xFF14557B),Color(0xFF7FCEC5))),
+        Brush.linearGradient(listOf(Color(0xFF3E2F5B),Color(0xFFFFC857))),
+        Brush.linearGradient(listOf(Color(0xFFFEB9A3),Color(0xFFFEA684))),
+        Brush.linearGradient(listOf(Color(0xFF5899E2),Color(0xFFFFFFFF))),
     )
 }
 

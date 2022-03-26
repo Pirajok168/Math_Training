@@ -3,4 +3,7 @@
     <string name="lesson">Lessons</string>
     <string name="statistic">Statistics</string>
     <string name="profile">Profile</string>
+    <string name="joined">Joined</string>
+    <string name="setting">Setting</string>
+    <string name="learned">Learned</string>
 </resources>
