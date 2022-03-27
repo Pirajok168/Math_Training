@@ -18,18 +18,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mathtraining.R
+import com.example.mathtraining.math.theme.LocaleApp
+import com.example.mathtraining.math.theme.MathTheme
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ChooseLanguage(@StringRes label: Int
                    , @DrawableRes icon: Int
+                   , image: Int
                    , backColor: Color
                    , tintColor: Color
-                   , onChange: ()-> Unit) {
+                   , onChange: (locale: LocaleApp)-> Unit) {
 
     var expanded by remember { mutableStateOf(false) }
+    
+
+
     Row(horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth().clickable { expanded=true },
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { expanded = true },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Surface(
@@ -57,23 +65,34 @@ fun ChooseLanguage(@StringRes label: Int
             color = Color.Transparent,
             modifier = Modifier.size(48.dp)
         ) {
-            Image(painter = painterResource(id = R.drawable.united_states), contentDescription = "")
+            Image(painter = painterResource(id = image)
+           , contentDescription = "")
             
             DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                DropdownMenuItem(onClick = { expanded = false }) {
+                DropdownMenuItem(onClick = {
+                    onChange(LocaleApp.Russian)
+                    expanded = false
+                }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(painter = painterResource(id = R.drawable.russia),
                             contentDescription = "",
-                            modifier = Modifier.size(48.dp).padding(end=10.dp))
+                            modifier = Modifier
+                                .size(48.dp)
+                                .padding(end = 10.dp))
                         Text(text = "Русский")
                     }
                 }
 
-                DropdownMenuItem(onClick = { expanded = false }) {
+                DropdownMenuItem(onClick = {
+                    onChange(LocaleApp.English)
+                    expanded = false
+                }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(painter = painterResource(id = R.drawable.united_states),
                             contentDescription = "",
-                            modifier = Modifier.size(48.dp).padding(end=10.dp))
+                            modifier = Modifier
+                                .size(48.dp)
+                                .padding(end = 10.dp))
                         Text(text = "English")
                     }
 

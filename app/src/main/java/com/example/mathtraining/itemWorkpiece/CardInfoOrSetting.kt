@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mathtraining.R
+import com.example.mathtraining.math.theme.MathTheme
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -41,12 +43,15 @@ fun CardInfoOrSetting(@StringRes label: Int, @DrawableRes icon: Int, backColor: 
                     , fontWeight = FontWeight.Bold
                     , fontSize = 18.sp
                     , modifier = Modifier.padding(start = 20.dp)
+                    , color = MathTheme.colors.additionalColor
+
                 )
             }
         }
         Surface(modifier = Modifier
             .size(50.dp),
             color = Color.LightGray,
+            indication = rememberRipple(bounded = false),
             shape = RoundedCornerShape(5.dp),
             onClick = {
                 onClick()

@@ -49,6 +49,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.mathtraining.R
 import com.example.mathtraining.itemWorkpiece.CardInfoOrSetting
+import com.example.mathtraining.math.theme.MathTheme
 import com.example.mathtraining.nav.Screens
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -79,7 +80,7 @@ fun Header(date: String) {
             modifier = Modifier
                 .size(120.dp),
             color = Color.Transparent,
-            border = BorderStroke(4.dp, Brush.linearGradient(listOf(Color(0xFFA7ACD9), Color(0xFF9E8FB2))) )
+            border = BorderStroke(4.dp, Brush.linearGradient(MathTheme.colors.borderProfileColors) )
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -96,43 +97,46 @@ fun Header(date: String) {
 
 
 
-       Surface(
-           color = Color.Transparent
-       ) {
+        Surface(
+            color = Color.Transparent
+        ) {
 
-           Row(modifier = Modifier
-               .height(120.dp),
+            Row(modifier = Modifier
+                .height(120.dp),
 
-           ) {
-               Divider(
-                   color = Color.Gray,
-                   modifier = Modifier
-                       .fillMaxHeight()
-                       .width(3.dp)
-                       .alpha(0.6f)
-               )
-               Spacer(modifier = Modifier.size(25.dp))
-               Column(
-                   modifier = Modifier
-                       .height(120.dp),
-                   verticalArrangement = Arrangement.Center
-               ) {
-                   Text(text = stringResource(id = R.string.joined)
-                       , color = Color(0xFF745B96)
-                       , fontWeight = FontWeight.Bold)
+                ) {
+                Divider(
+                    color = Color.Gray,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(3.dp)
+                        .alpha(0.6f)
+                )
+                Spacer(modifier = Modifier.size(25.dp))
+                Column(
+                    modifier = Modifier
+                        .height(120.dp),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(text = stringResource(id = MathTheme.localization.joined)
+                        , color =  MathTheme.colors.accentColor
+                        , fontWeight = FontWeight.Bold)
 
-                   Text(buildAnnotatedString {
-                       withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
-                           append(date)
-                       }
-                       append(" mon ago")
-                   })
-               }
-           }
+                    Text(buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                            append(date)
+                        }
+                        withStyle(style = SpanStyle(color = MathTheme.colors.additionalColor)){
+                            append(" mon ago")
+                        }
+
+                    })
+                }
+            }
 
 
 
-       }
+        }
     }
 
 
@@ -191,14 +195,14 @@ fun FIO(_name: String, _surname: String
 
                 }) {
                     Icon(imageVector = if (enable) Icons.Default.Done else Icons.Default.Edit
-                        , contentDescription = "", tint = if (enable) Color(0xFF745B96) else Color.Black)
+                        , contentDescription = "", tint = if (enable) MathTheme.colors.accentColor else Color.Black)
                 }
 
             }
         ) {
 
             BasicTextField(value =name, onValueChange = { name=it},
-                textStyle = TextStyle(color = if(enable) Color.Black else Color(0xFF745B96),
+                textStyle = TextStyle(color = if(enable) Color.Black else  MathTheme.colors.accentColor,
                     fontSize = 40.sp,
                     fontWeight = FontWeight.ExtraBold),
                 enabled =  enable,
@@ -217,7 +221,7 @@ fun FIO(_name: String, _surname: String
         }
 
         BasicTextField(value =surname, onValueChange = { surname=it},
-            textStyle = TextStyle(color = if(enable) Color.Black else Color(0xFF9E8FB2),
+            textStyle = TextStyle(color = if(enable) Color.Black else MathTheme.colors.additionalColor,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Medium),
             enabled =  enable,
@@ -246,11 +250,12 @@ fun FIO(_name: String, _surname: String
 @Composable
 fun SettingsAndInfo(navHostController: NavHostController) {
     Column(modifier = Modifier.padding(horizontal = 28.dp, vertical = 15.dp)) {
-        CardInfoOrSetting(R.string.setting, R.drawable.ic_baseline_settings_24,  Color(0x6370B2D9), Color(0xFF5899E2)){
+        CardInfoOrSetting(MathTheme.localization.settings, R.drawable.ic_baseline_settings_24, MathTheme.colors.backgroundSettingColor, MathTheme.colors.tintSettingsColor){
             navHostController.navigate(Screens.Settings.route)
         }
 
-        CardInfoOrSetting(label = R.string.learned, icon = R.drawable.ic_baseline_school_24, Color(0x99FEA684), Color(0xFF913613)){
+        CardInfoOrSetting(label = MathTheme.localization.learned, icon = R.drawable.ic_baseline_school_24,MathTheme.colors.backgroundLearnedColor
+            , MathTheme.colors.tintLearnedColor){
 
         }
     }

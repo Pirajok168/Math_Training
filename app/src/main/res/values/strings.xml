@@ -12,7 +12,18 @@
     <string name="applicationSettings">Application Settings</string>
     <string name="accountSettings">Account Settings</string>
     <string name="changeCourse">Change Course</string>
-
+    <string name="ruProfile">Профиль</string>
+    <string name="ruLesson">Уроки</string>
+    <string name="ruStatistic">Статистика</string>
+    <string name="ruJoined">"Присоединился "</string>
+    <string name="ruSetting">Настройки</string>
+    <string name="ruLearned">Изучено</string>
+    <string name="ruNotifications">Уведомления</string>
+    <string name="ruDarkMode">Темный режим</string>
+    <string name="ruChooseLanguage">Изменить язык</string>
+    <string name="ruChangeCourse">Сменить курс</string>
+    <string name="ruApplicationSettings">Настройки приложения</string>
+    <string name="ruAccountSettings">Настройки аккаунта</string>
 
 
     <string-array name="courser">

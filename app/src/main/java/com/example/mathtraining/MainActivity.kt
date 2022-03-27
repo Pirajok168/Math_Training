@@ -14,9 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -27,7 +25,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,19 +35,27 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.mathtraining.math.theme.LocaleApp
+import com.example.mathtraining.math.theme.MainTheme
+import com.example.mathtraining.math.theme.MathTheme
+import com.example.mathtraining.nav.LabelScreens
 import com.example.mathtraining.nav.Screens
 import com.example.mathtraining.screens.Lessons
 import com.example.mathtraining.screens.Profile
 import com.example.mathtraining.screens.Settings
 import com.example.mathtraining.screens.Statistic
-import com.example.mathtraining.ui.theme.MathTrainingTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MathTrainingTheme {
+            val localeApp: MutableState<LocaleApp> = remember{
+                mutableStateOf(LocaleApp.Russian)
+            }
+            MainTheme(
+                locale = localeApp.value
+            ) {
                 val systemUiController = rememberSystemUiController()
                 SideEffect {
                     systemUiController.setSystemBarsColor(
@@ -58,7 +63,9 @@ class MainActivity : ComponentActivity() {
                         darkIcons = true
                     )
                 }
-                ScreenNavigation()
+                ScreenNavigation(){
+                    localeApp.value = it
+                }
 
 
             }
@@ -68,7 +75,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun ScreenNavigation() {
+fun ScreenNavigation(onChooseLocale: (locale: LocaleApp) -> Unit) {
     val navHostController = rememberNavController()
     NavHost(navController = navHostController, startDestination = Screens.MainScreen.route){
         composable(Screens.MainScreen.route){
@@ -76,7 +83,9 @@ fun ScreenNavigation() {
         }
 
         composable(Screens.Settings.route){
-            Settings()
+            Settings(){
+                onChooseLocale(it)
+            }
         }
     }
 }
@@ -85,7 +94,7 @@ fun ScreenNavigation() {
 @Composable
 fun ScreenContent(navHostController: NavHostController) {
     val navController = rememberNavController()
-    val listColors = listOf(Color(0x54E9E2CB), Color(0x48E6B6A8))
+    val listColors = MathTheme.colors.backgroundColor
     val brush = Brush.linearGradient(listColors)
     val state = rememberScrollState()
 
@@ -152,7 +161,7 @@ fun TopBarLessons() {
 @Composable
 fun BottomBar(navController: NavHostController) {
     val items = listOf(Screens.Statistic, Screens.Lessons, Screens.Profile)
-    val listColors = listOf(Color(0xFFA7ACD9), Color(0xFF9E8FB2))
+    val listColors = MathTheme.colors.navBarColor
     val brush = Brush.linearGradient(listColors)
 
 
@@ -171,7 +180,24 @@ fun BottomBar(navController: NavHostController) {
                 icon = { Icon(painter = painterResource(id = screen.drawableRes!!), contentDescription = null) },
                 label = {
                     AnimatedVisibility(visible = selected) {
-                        Text(stringResource(id = screen.label!!))
+                        Text(stringResource(id =
+                                when(screen.label){
+                                    LabelScreens.Lessons -> {
+                                        MathTheme.localization.screenLessons
+                                    }
+                                    LabelScreens.Profile -> {
+                                        MathTheme.localization.screenProfile
+                                    }
+                                    LabelScreens.Statistic -> {
+                                        MathTheme.localization.screenStatistic
+                                    }
+                                    else -> {
+                                        MathTheme.localization.screenStatistic
+                                    }
+                                }
+
+                            )
+                        )
                     }
 
                 },
@@ -188,7 +214,7 @@ fun BottomBar(navController: NavHostController) {
                         restoreState = true
                     }
                 },
-                selectedContentColor=Color(0xFFFF8489),
+                selectedContentColor = MathTheme.colors.selectedNavItem,
                 unselectedContentColor=Color.White,
                 modifier=Modifier.scale(if (!selected) 1f else 1.3f)
 
