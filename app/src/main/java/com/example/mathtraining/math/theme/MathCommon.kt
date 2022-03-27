@@ -17,6 +17,17 @@ data class MathColor(
     val backgroundLearnedColor: Color,
     val tintLearnedColor: Color,
     val backgroundColor: List<Color>,
+    val backgroundColorIconNotifications : Color,
+    val tintColorIconNotifications : Color,
+    val backgroundColorIconDarkMode : Color,
+    val tintColorIconDarkMode : Color,
+    val backgroundColorIconChangeLange : Color,
+    val tintColorIconChangeLange : Color,
+    val backgroundColorIconChooseCourse : Color,
+    val tintColorIconChooseCourse : Color,
+    val tintColorEdit: Color,
+    val colorEditName: Color,
+    val headerColorSetting: Color
 )
 
 

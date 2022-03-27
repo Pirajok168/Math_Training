@@ -43,7 +43,7 @@ fun CardInfoOrSetting(@StringRes label: Int, @DrawableRes icon: Int, backColor: 
                     , fontWeight = FontWeight.Bold
                     , fontSize = 18.sp
                     , modifier = Modifier.padding(start = 20.dp)
-                    , color = MathTheme.colors.additionalColor
+                    , color = MathTheme.colors.accentColor
 
                 )
             }

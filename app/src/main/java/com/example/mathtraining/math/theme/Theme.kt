@@ -13,7 +13,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 @Composable
 fun MainTheme(
     locale: LocaleApp = LocaleApp.English,
-    darkTheme: Boolean = false,
+    darkTheme: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colors = when (darkTheme){

@@ -56,6 +56,7 @@ fun ChooseLanguage(@StringRes label: Int
                     , fontWeight = FontWeight.Bold
                     , fontSize = 18.sp
                     , modifier = Modifier.padding(start = 20.dp)
+                    , color = MathTheme.colors.accentColor
                 )
             }
         }

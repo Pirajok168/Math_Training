@@ -53,8 +53,13 @@ class MainActivity : ComponentActivity() {
             val localeApp: MutableState<LocaleApp> = remember{
                 mutableStateOf(LocaleApp.Russian)
             }
+
+            val isNightMode = remember {
+                mutableStateOf(false)
+            }
             MainTheme(
-                locale = localeApp.value
+                locale = localeApp.value,
+                darkTheme = isNightMode.value
             ) {
                 val systemUiController = rememberSystemUiController()
                 SideEffect {
@@ -63,10 +68,15 @@ class MainActivity : ComponentActivity() {
                         darkIcons = true
                     )
                 }
-                ScreenNavigation(){
-                    localeApp.value = it
-                }
-
+                ScreenNavigation(
+                    onChooseLocale = {
+                        localeApp.value = it
+                    },
+                    onChooseNightMode = {
+                        isNightMode.value = it
+                    },
+                    isNightMode=isNightMode.value
+                )
 
             }
         }
@@ -75,24 +85,37 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun ScreenNavigation(onChooseLocale: (locale: LocaleApp) -> Unit) {
+fun ScreenNavigation(
+    isNightMode: Boolean,
+    onChooseLocale: (locale: LocaleApp) -> Unit,
+    onChooseNightMode: (isNightMode: Boolean) -> Unit
+) {
     val navHostController = rememberNavController()
     NavHost(navController = navHostController, startDestination = Screens.MainScreen.route){
         composable(Screens.MainScreen.route){
-            ScreenContent(navHostController)
+            ScreenContent(
+                onMenuScreen={
+                    navHostController.navigate(Screens.Settings.route){
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
 
         composable(Screens.Settings.route){
-            Settings(){
-                onChooseLocale(it)
-            }
+            Settings(
+                isNightMode=isNightMode,
+                onChooseLocale = onChooseLocale,
+                onChooseNightMode = onChooseNightMode
+            )
+
         }
     }
 }
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ScreenContent(navHostController: NavHostController) {
+fun ScreenContent(onMenuScreen: () -> Unit) {
     val navController = rememberNavController()
     val listColors = MathTheme.colors.backgroundColor
     val brush = Brush.linearGradient(listColors)
@@ -133,7 +156,7 @@ fun ScreenContent(navHostController: NavHostController) {
                 Lessons(state)
             }
             composable(Screens.Profile.route) {
-                Profile(navHostController)
+                Profile(onMenuScreen)
             }
         }
     }

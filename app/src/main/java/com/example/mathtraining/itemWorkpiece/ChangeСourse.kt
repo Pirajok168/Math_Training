@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mathtraining.R
+import com.example.mathtraining.math.theme.MathTheme
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -52,6 +53,7 @@ fun ChangeCourse(@StringRes label: Int,
                     , fontWeight = FontWeight.Bold
                     , fontSize = 18.sp
                     , modifier = Modifier.padding(start = 20.dp)
+                    , color = MathTheme.colors.accentColor
                 )
             }
         }

@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -55,13 +56,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun Profile(navHostController: NavHostController) {
+fun Profile(onMenuScreen: ()->Unit) {
     SideEffect {
         Log.e("test", "profile-recompose")
     }
     Column() {
         Header("6")
-        Body(navHostController)
+        Body(onMenuScreen)
 
     }
 }
@@ -123,7 +124,8 @@ fun Header(date: String) {
                         , fontWeight = FontWeight.Bold)
 
                     Text(buildAnnotatedString {
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold
+                            , color = MathTheme.colors.accentColor)){
                             append(date)
                         }
                         withStyle(style = SpanStyle(color = MathTheme.colors.additionalColor)){
@@ -145,9 +147,9 @@ fun Header(date: String) {
 
 
 @Composable
-fun Body(navHostController: NavHostController) {
+fun Body(onMenuScreen: ()->Unit) {
     FIO("Данила", "Еремин")
-    SettingsAndInfo(navHostController)
+    SettingsAndInfo(onMenuScreen)
 }
 
 
@@ -195,14 +197,15 @@ fun FIO(_name: String, _surname: String
 
                 }) {
                     Icon(imageVector = if (enable) Icons.Default.Done else Icons.Default.Edit
-                        , contentDescription = "", tint = if (enable) MathTheme.colors.accentColor else Color.Black)
+                        , contentDescription = ""
+                        , tint = if (enable) MathTheme.colors.accentColor else MathTheme.colors.tintColorEdit)
                 }
 
             }
         ) {
 
             BasicTextField(value =name, onValueChange = { name=it},
-                textStyle = TextStyle(color = if(enable) Color.Black else  MathTheme.colors.accentColor,
+                textStyle = TextStyle(color = if(enable) MathTheme.colors.colorEditName else  MathTheme.colors.accentColor,
                     fontSize = 40.sp,
                     fontWeight = FontWeight.ExtraBold),
                 enabled =  enable,
@@ -221,7 +224,7 @@ fun FIO(_name: String, _surname: String
         }
 
         BasicTextField(value =surname, onValueChange = { surname=it},
-            textStyle = TextStyle(color = if(enable) Color.Black else MathTheme.colors.additionalColor,
+            textStyle = TextStyle(color = if(enable) MathTheme.colors.colorEditName else MathTheme.colors.additionalColor,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Medium),
             enabled =  enable,
@@ -248,13 +251,17 @@ fun FIO(_name: String, _surname: String
 }
 
 @Composable
-fun SettingsAndInfo(navHostController: NavHostController) {
+fun SettingsAndInfo(onMenuScreen: ()->Unit) {
     Column(modifier = Modifier.padding(horizontal = 28.dp, vertical = 15.dp)) {
-        CardInfoOrSetting(MathTheme.localization.settings, R.drawable.ic_baseline_settings_24, MathTheme.colors.backgroundSettingColor, MathTheme.colors.tintSettingsColor){
-            navHostController.navigate(Screens.Settings.route)
-        }
+        CardInfoOrSetting(MathTheme.localization.settings
+            , R.drawable.ic_baseline_settings_24
+            , MathTheme.colors.backgroundSettingColor
+            , MathTheme.colors.tintSettingsColor
+            , onClick = onMenuScreen)
 
-        CardInfoOrSetting(label = MathTheme.localization.learned, icon = R.drawable.ic_baseline_school_24,MathTheme.colors.backgroundLearnedColor
+        CardInfoOrSetting(label = MathTheme.localization.learned
+            , icon = R.drawable.ic_baseline_school_24
+            , MathTheme.colors.backgroundLearnedColor
             , MathTheme.colors.tintLearnedColor){
 
         }

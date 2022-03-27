@@ -16,12 +16,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mathtraining.math.theme.MathTheme
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DarkMode(@StringRes label: Int, @DrawableRes icon: Int, backColor: Color, tintColor: Color, onChange: ()-> Unit) {
+fun DarkMode(@StringRes label: Int,
+             @DrawableRes icon: Int,
+             backColor: Color,
+             tintColor: Color,
+             isNightMode: Boolean,
+             onChange: (value: Boolean)-> Unit,
+
+) {
     val check = remember {
-        mutableStateOf(false)
+        mutableStateOf(isNightMode)
     }
     Row(horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth(),
@@ -43,11 +51,12 @@ fun DarkMode(@StringRes label: Int, @DrawableRes icon: Int, backColor: Color, ti
                     , fontWeight = FontWeight.Bold
                     , fontSize = 18.sp
                     , modifier = Modifier.padding(start = 20.dp)
+                    , color = MathTheme.colors.accentColor
                 )
             }
         }
 
-        Switch(checked = check.value, onCheckedChange = { check.value = it; onChange() })
+        Switch(checked = check.value, onCheckedChange = { check.value = it; onChange(it) })
 
     }
 
@@ -79,6 +88,7 @@ fun Notifications(@StringRes label: Int, @DrawableRes icon: Int, backColor: Colo
                     , fontWeight = FontWeight.Bold
                     , fontSize = 18.sp
                     , modifier = Modifier.padding(start = 20.dp)
+                    , color = MathTheme.colors.accentColor
                 )
             }
         }
