@@ -24,7 +24,7 @@ import java.util.*
 @Composable
 fun Lessons(state: ScrollState) {
     SideEffect {
-        Log.e("test", "recompose")
+        Log.e("test", "Lessons-recompose")
     }
     val list = List<Int>(10){
         it + 1

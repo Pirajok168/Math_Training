@@ -41,6 +41,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mathtraining.nav.Screens
 import com.example.mathtraining.screens.Lessons
 import com.example.mathtraining.screens.Profile
+import com.example.mathtraining.screens.Settings
 import com.example.mathtraining.screens.Statistic
 import com.example.mathtraining.ui.theme.MathTrainingTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -57,17 +58,32 @@ class MainActivity : ComponentActivity() {
                         darkIcons = true
                     )
                 }
+                ScreenNavigation()
 
-                ScreenContent()
 
             }
         }
     }
 }
 
+
+@Composable
+fun ScreenNavigation() {
+    val navHostController = rememberNavController()
+    NavHost(navController = navHostController, startDestination = Screens.MainScreen.route){
+        composable(Screens.MainScreen.route){
+            ScreenContent(navHostController)
+        }
+
+        composable(Screens.Settings.route){
+            Settings()
+        }
+    }
+}
+
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ScreenContent() {
+fun ScreenContent(navHostController: NavHostController) {
     val navController = rememberNavController()
     val listColors = listOf(Color(0x54E9E2CB), Color(0x48E6B6A8))
     val brush = Brush.linearGradient(listColors)
@@ -108,7 +124,7 @@ fun ScreenContent() {
                 Lessons(state)
             }
             composable(Screens.Profile.route) {
-                Profile()
+                Profile(navHostController)
             }
         }
     }
@@ -152,10 +168,10 @@ fun BottomBar(navController: NavHostController) {
             screen ->
             val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
             BottomNavigationItem(
-                icon = { Icon(painter = painterResource(id = screen.drawableRes), contentDescription = null) },
+                icon = { Icon(painter = painterResource(id = screen.drawableRes!!), contentDescription = null) },
                 label = {
                     AnimatedVisibility(visible = selected) {
-                        Text(stringResource(id = screen.label))
+                        Text(stringResource(id = screen.label!!))
                     }
 
                 },
@@ -211,10 +227,4 @@ fun NavBar(modifier: Modifier = Modifier,
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MathTrainingTheme {
-        ScreenContent()
-    }
-}
+

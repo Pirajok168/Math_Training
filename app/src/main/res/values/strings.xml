@@ -6,4 +6,31 @@
     <string name="joined">Joined</string>
     <string name="setting">Setting</string>
     <string name="learned">Learned</string>
+    <string name="notifications">Notifications</string>
+    <string name="darkMode">Dark Mode</string>
+    <string name="chooseLanguage">Select a language</string>
+    <string name="applicationSettings">Application Settings</string>
+    <string name="accountSettings">Account Settings</string>
+    <string name="changeCourse">Change Course</string>
+
+
+
+    <string-array name="courser">
+        <item>
+            Elementary
+        </item>
+        <item>
+            Pre-Intermediate
+        </item>
+        <item>
+            Intermediate
+        </item>
+        <item>
+            Upper-Intermediate
+        </item>
+        <item>
+            Advanced
+        </item>
+
+    </string-array>
 </resources>
