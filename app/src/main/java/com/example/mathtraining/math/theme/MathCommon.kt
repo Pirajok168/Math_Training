@@ -29,6 +29,8 @@ data class MathColor(
     val colorEditName: Color,
     val headerColorSetting: Color,
     val backgroundTobBarColor: Color,
+    val colorDivider: Color,
+
 )
 
 

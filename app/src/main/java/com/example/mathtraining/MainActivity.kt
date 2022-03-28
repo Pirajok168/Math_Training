@@ -17,8 +17,10 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -35,9 +37,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.mathtraining.math.theme.LocaleApp
-import com.example.mathtraining.math.theme.MainTheme
-import com.example.mathtraining.math.theme.MathTheme
+import com.example.mathtraining.math.theme.*
 import com.example.mathtraining.nav.LabelScreens
 import com.example.mathtraining.nav.Screens
 import com.example.mathtraining.screens.Lessons
@@ -64,19 +64,23 @@ class MainActivity : ComponentActivity() {
                 val systemUiController = rememberSystemUiController()
                 SideEffect {
                     systemUiController.setSystemBarsColor(
-                        color = Color.Transparent,
+                        color = if(isNightMode.value) baseDarkPalette.backgroundTobBarColor else baseLightPalette.backgroundTobBarColor ,
                         darkIcons = true
                     )
+
+
                 }
-                ScreenNavigation(
-                    onChooseLocale = {
-                        localeApp.value = it
-                    },
-                    onChooseNightMode = {
-                        isNightMode.value = it
-                    },
-                    isNightMode=isNightMode.value
-                )
+                Surface(color = MathTheme.colors.backgroundColor[0]) {
+                    ScreenNavigation(
+                        onChooseLocale = {
+                            localeApp.value = it
+                        },
+                        onChooseNightMode = {
+                            isNightMode.value = it
+                        },
+                        isNightMode=isNightMode.value
+                    )
+                }
 
             }
         }
@@ -164,21 +168,24 @@ fun ScreenContent(onMenuScreen: () -> Unit) {
 
 @Composable
 fun TopBarLessons() {
-    
+    Column {
+        TopAppBar(
+            title = {
+                Text(text = "Course",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MathTheme.colors.accentColor
+                )
+            },
+            backgroundColor= MathTheme.colors.backgroundTobBarColor,
+            elevation = 0.dp,
+        )
+        Divider(
+            thickness = 2.dp,
+            color = MathTheme.colors.colorDivider
+        )
+    }
 
-    
-    TopAppBar(
-        title = {
-            Text(text = "Course", fontSize = 22.sp, fontWeight = FontWeight.Bold
-                , color = MathTheme.colors.accentColor
-            )
-        },
-        backgroundColor= MathTheme.colors.backgroundTobBarColor,
-        modifier = Modifier.shadow(100.dp, ambientColor=  Color(
-            0xB5D63B0D
-        ), spotColor=  Color(0xB5D63B0D))
-
-    )
 }
 
 

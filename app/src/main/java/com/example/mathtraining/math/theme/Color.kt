@@ -32,7 +32,9 @@ val baseLightPalette = MathColor(
     tintColorEdit= Color.Black,
     colorEditName=Color.Black,
     headerColorSetting=Color(0xFF46365C),
-    backgroundTobBarColor= Color(0x48E6B6A8)
+
+    backgroundTobBarColor= Color(0x54E9E2CB),
+    colorDivider =   Color.LightGray
 )
 
 val baseDarkPalette = baseLightPalette.copy(
@@ -50,11 +52,15 @@ val baseDarkPalette = baseLightPalette.copy(
     backgroundColorIconNotifications= Color(0x60F3EBA7),
     tintColorIconNotifications=Color(0xFFFFEB3B),
 
-    backgroundColorIconChooseCourse=Color(0xD3FFFFFF),
+    backgroundColorIconChooseCourse=Color(0xFFDECBE9),
     tintColorIconChooseCourse=Color(0xFF9F3ED5),
 
     backgroundColorIconChangeLange=Color(0xFFFFD6D0),
     tintColorIconChangeLange = Color(0xFFFF1E00),
 
-    headerColorSetting=Color(0xFFF8F2F7)
+    headerColorSetting=Color(0xFFF8F2F7),
+
+    backgroundTobBarColor= Color(0xFF191B24),
+
+    colorDivider = Color.Gray
 )

@@ -107,7 +107,7 @@ fun Header(date: String) {
 
                 ) {
                 Divider(
-                    color = Color.Gray,
+                    color = MathTheme.colors.colorDivider,
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(3.dp)

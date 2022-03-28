@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "463395279361",
+    "project_id": "math-training-84285",
+    "storage_bucket": "math-training-84285.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463395279361:android:3de369ea6582a6e44a2600",
+        "android_client_info": {
+          "package_name": "com.example.mathtraining"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463395279361-i2s444ges8maf8soefpbrs0gm56su122.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdkdy8rJzoW03IGp5sOdjA6LWvThP4Kig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "463395279361-i2s444ges8maf8soefpbrs0gm56su122.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
