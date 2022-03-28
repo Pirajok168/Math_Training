@@ -27,7 +27,8 @@ data class MathColor(
     val tintColorIconChooseCourse : Color,
     val tintColorEdit: Color,
     val colorEditName: Color,
-    val headerColorSetting: Color
+    val headerColorSetting: Color,
+    val backgroundTobBarColor: Color,
 )
 
 

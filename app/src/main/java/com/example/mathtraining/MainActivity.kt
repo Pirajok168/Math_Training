@@ -169,9 +169,11 @@ fun TopBarLessons() {
     
     TopAppBar(
         title = {
-            Text(text = "Course", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color.Gray)
+            Text(text = "Course", fontSize = 22.sp, fontWeight = FontWeight.Bold
+                , color = MathTheme.colors.accentColor
+            )
         },
-        backgroundColor= Color.White,
+        backgroundColor= MathTheme.colors.backgroundTobBarColor,
         modifier = Modifier.shadow(100.dp, ambientColor=  Color(
             0xB5D63B0D
         ), spotColor=  Color(0xB5D63B0D))

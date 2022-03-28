@@ -12,7 +12,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 
 @Composable
 fun MainTheme(
-    locale: LocaleApp = LocaleApp.English,
+    locale: LocaleApp,
     darkTheme: Boolean = true,
     content: @Composable () -> Unit
 ) {
@@ -32,6 +32,7 @@ fun MainTheme(
         is LocaleApp.Russian ->{
             ruLocal
         }
+
     }
 
     CompositionLocalProvider(

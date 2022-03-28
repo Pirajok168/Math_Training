@@ -31,7 +31,8 @@ val baseLightPalette = MathColor(
 
     tintColorEdit= Color.Black,
     colorEditName=Color.Black,
-    headerColorSetting=Color(0xFF46365C)
+    headerColorSetting=Color(0xFF46365C),
+    backgroundTobBarColor= Color(0x48E6B6A8)
 )
 
 val baseDarkPalette = baseLightPalette.copy(
