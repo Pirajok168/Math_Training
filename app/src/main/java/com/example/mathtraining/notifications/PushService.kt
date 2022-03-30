@@ -12,6 +12,9 @@ import androidx.core.app.NotificationCompat
 import com.example.mathtraining.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class PushService: FirebaseMessagingService() {
