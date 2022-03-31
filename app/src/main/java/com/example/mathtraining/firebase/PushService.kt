@@ -1,20 +1,8 @@
-package com.example.mathtraining.notifications
+package com.example.mathtraining.firebase
 
-import android.R
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Intent
-import android.media.RingtoneManager
-import android.net.Uri
-import android.util.Log
-import androidx.compose.ui.graphics.Color
-import androidx.core.app.NotificationCompat
-import com.example.mathtraining.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 class PushService: FirebaseMessagingService() {

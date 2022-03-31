@@ -26,8 +26,10 @@ import com.example.mathtraining.math.theme.MathTheme
 @Composable
 fun Settings(
     isNightMode: Boolean,
+    enableNotification: Boolean,
     onChooseLocale: (locale: LocaleApp) -> Unit,
-    onChooseNightMode: (isNightMode: Boolean) -> Unit
+    onChooseNightMode: (isNightMode: Boolean) -> Unit,
+    onEnableNotification: (enable: Boolean) -> Unit,
 ) {
 
     SideEffect {
@@ -62,8 +64,9 @@ fun Settings(
             item {
                 Notifications(MathTheme.localization.notification, R.drawable.ic_baseline_notifications_24
                     , MathTheme.colors.backgroundColorIconNotifications
-                    , MathTheme.colors.tintColorIconNotifications){
-
+                    , MathTheme.colors.tintColorIconNotifications
+                    , enableNotification = enableNotification){
+                    onEnableNotification(it)
                 }
             }
 

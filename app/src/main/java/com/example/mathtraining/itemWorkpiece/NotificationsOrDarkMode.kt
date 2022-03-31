@@ -64,9 +64,16 @@ fun DarkMode(@StringRes label: Int,
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun Notifications(@StringRes label: Int, @DrawableRes icon: Int, backColor: Color, tintColor: Color, onChange: ()-> Unit) {
+fun Notifications(
+    @StringRes label: Int,
+    @DrawableRes icon: Int,
+    backColor: Color,
+    tintColor: Color,
+    enableNotification: Boolean,
+    onChange: (enable: Boolean)-> Unit,
+) {
     val check = remember {
-        mutableStateOf(false)
+        mutableStateOf(enableNotification)
     }
     Row(horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth(),
@@ -93,7 +100,7 @@ fun Notifications(@StringRes label: Int, @DrawableRes icon: Int, backColor: Colo
             }
         }
 
-        Switch(checked = check.value, onCheckedChange = { check.value = it; onChange() })
+        Switch(checked = check.value, onCheckedChange = { check.value = it; onChange(check.value) })
 
     }
 

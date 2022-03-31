@@ -15,12 +15,10 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -30,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -44,12 +43,20 @@ import com.example.mathtraining.screens.Lessons
 import com.example.mathtraining.screens.Profile
 import com.example.mathtraining.screens.Settings
 import com.example.mathtraining.screens.Statistic
+import com.example.mathtraining.viewmodel.WorkManagerViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
+
+            val extras = intent.extras
+
+
+
             val localeApp: MutableState<LocaleApp> = remember{
                 mutableStateOf(LocaleApp.Russian)
             }
@@ -57,6 +64,26 @@ class MainActivity : ComponentActivity() {
             val isNightMode = remember {
                 mutableStateOf(false)
             }
+
+            val workManagerViewModel = hiltViewModel<WorkManagerViewModel>()
+
+            val enableNotification = workManagerViewModel.enableNotification.observeAsState(true)
+            val id = workManagerViewModel.id.observeAsState()
+
+
+
+            LaunchedEffect(0){
+                workManagerViewModel.setRunningWorkManager(false)
+                workManagerViewModel.resetWorkManager()
+            }
+
+
+            /*if(extras?.getString("click_notification")=="onClick"){
+                viewModel.replaceWorkManager()
+                extras.clear()
+            }*/
+
+
             MainTheme(
                 locale = localeApp.value,
                 darkTheme = isNightMode.value
@@ -78,23 +105,33 @@ class MainActivity : ComponentActivity() {
                         onChooseNightMode = {
                             isNightMode.value = it
                         },
-                        isNightMode=isNightMode.value
+                        isNightMode=isNightMode.value,
+                        onEnableNotification={
+                            workManagerViewModel.isActiveWorkManager(enable = it )
+                            workManagerViewModel.updateEnableNotification(it, id.value!!)
+
+                        },
+                        enableNotification=enableNotification.value!!
                     )
                 }
 
             }
         }
     }
+
 }
 
 
 @Composable
 fun ScreenNavigation(
     isNightMode: Boolean,
+    enableNotification: Boolean,
     onChooseLocale: (locale: LocaleApp) -> Unit,
-    onChooseNightMode: (isNightMode: Boolean) -> Unit
+    onChooseNightMode: (isNightMode: Boolean) -> Unit,
+    onEnableNotification: (enable: Boolean) -> Unit,
 ) {
     val navHostController = rememberNavController()
+
     NavHost(navController = navHostController, startDestination = Screens.MainScreen.route){
         composable(Screens.MainScreen.route){
             ScreenContent(
@@ -110,7 +147,9 @@ fun ScreenNavigation(
             Settings(
                 isNightMode=isNightMode,
                 onChooseLocale = onChooseLocale,
-                onChooseNightMode = onChooseNightMode
+                onChooseNightMode = onChooseNightMode,
+                enableNotification = enableNotification,
+                onEnableNotification=onEnableNotification
             )
 
         }

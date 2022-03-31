@@ -24,6 +24,8 @@
     <string name="ruChangeCourse">Сменить курс</string>
     <string name="ruApplicationSettings">Настройки приложения</string>
     <string name="ruAccountSettings">Настройки аккаунта</string>
+    <string name="channel_name">Уведомления</string>
+    <string name="channel_description">Уведомление о занятиях</string>
 
 
     <string-array name="courser">
