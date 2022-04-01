@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 
 import androidx.lifecycle.ViewModel
@@ -26,10 +28,14 @@ class WorkManagerViewModel  @Inject constructor (
     application: Application,
 ):  AndroidViewModel(application) {
 
-    private val userRepository = UserRepository.get()
-    val enableNotification = userRepository.isActiveNotification
-    val id = userRepository.id
 
+
+
+
+    private val userRepository = UserRepository.get()
+
+    val id = userRepository.id
+    val isActiveNotification = userRepository.isActiveNotification
     private var uploadWorkRequest: WorkRequest =  OneTimeWorkRequestBuilder<UploadWorker>()
         .setBackoffCriteria(
             BackoffPolicy.LINEAR,
@@ -42,36 +48,21 @@ class WorkManagerViewModel  @Inject constructor (
     private var workManager: WorkManager =  WorkManager
         .getInstance(application)
 
-
-
-
-    fun replaceWorkManager(){
-        workManager.enqueueUniqueWork(
-            "sendLog",
-            ExistingWorkPolicy.REPLACE,
-            uploadWorkRequest as OneTimeWorkRequest
-        )
-        workManager.getWorkInfosForUniqueWork("sendLog").get()?.forEach {
-            Log.e("work", "replace - " + it.state.toString())
+    init {
+        isActiveNotification.observeForever {
+            if (it !=null){
+                setRunningWorkManager(it)
+            }
         }
     }
 
-    fun isActiveWorkManager(enable: Boolean){
 
-        if (enable){
-            workManager?.enqueueUniqueWork(
-                "sendLog",
-                ExistingWorkPolicy.REPLACE,
-                uploadWorkRequest as OneTimeWorkRequest
-            )
-        }else{
-            workManager?.cancelAllWork()
-        }
 
-        Log.e("work","$enable -" + workManager?.getWorkInfosForUniqueWork("sendLog")?.get()?.get(0)?.state )
-    }
 
-     fun setRunningWorkManager(enable: Boolean) {
+
+
+
+    private fun setRunningWorkManager(enable: Boolean) {
 
         if (enable){
             workManager.enqueueUniqueWork(
@@ -79,19 +70,13 @@ class WorkManagerViewModel  @Inject constructor (
                     ExistingWorkPolicy.REPLACE,
                 uploadWorkRequest as OneTimeWorkRequest
             )
+            Log.e("work", "Включили уведомления")
+        }else{
+            workManager.cancelAllWork()
+            Log.e("work", "Выключили")
         }
     }
 
-    fun resetWorkManager(){
-        workManager.enqueueUniqueWork(
-            "sendLog",
-            ExistingWorkPolicy.REPLACE,
-            uploadWorkRequest as OneTimeWorkRequest
-        )
-        workManager.getWorkInfosForUniqueWork("sendLog").get()?.forEach {
-            Log.e("work", "reset - " + it.state.toString())
-        }
-    }
 
     fun updateEnableNotification(enable: Boolean, id: Int){
         viewModelScope.launch(Dispatchers.IO) {

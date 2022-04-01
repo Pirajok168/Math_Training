@@ -29,14 +29,7 @@ class PushApp: Application()  {
         super.onCreate()
         UserRepository.initialize(applicationContext)
         createNotificationChannel()
-        GlobalScope.launch(Dispatchers.IO) {
-            UserRepository.get().createUser(
-                User(
-                    name = "Данила",
-                    surname = "Еремин",
-                )
-            )
-        }
+
         /*val uploadWorkRequest: WorkRequest =
             OneTimeWorkRequestBuilder<UploadWorker>()
                 .setInitialDelay(10, TimeUnit.SECONDS)

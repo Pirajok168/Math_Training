@@ -46,14 +46,22 @@ import com.example.mathtraining.screens.Statistic
 import com.example.mathtraining.viewmodel.WorkManagerViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
-
+const val ENABLE_NOTIFICATION = "enable_notification"
 class MainActivity : ComponentActivity() {
+
+
+
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
 
-            val extras = intent.extras
+
+
 
 
 
@@ -65,23 +73,24 @@ class MainActivity : ComponentActivity() {
                 mutableStateOf(false)
             }
 
-            val workManagerViewModel = hiltViewModel<WorkManagerViewModel>()
+            val workManagerViewModel:WorkManagerViewModel = hiltViewModel()
 
-            val enableNotification = workManagerViewModel.enableNotification.observeAsState(true)
+
+
+
+            val enableNotification = workManagerViewModel.isActiveNotification.observeAsState(initial = null)
+
             val id = workManagerViewModel.id.observeAsState()
+            Log.e("work", "enableNotification = " + enableNotification.value.toString())
 
 
 
             LaunchedEffect(0){
-                workManagerViewModel.setRunningWorkManager(false)
-                workManagerViewModel.resetWorkManager()
+                //workManagerViewModel.resetWorkManager(enableNotification.value!!)
             }
 
 
-            /*if(extras?.getString("click_notification")=="onClick"){
-                viewModel.replaceWorkManager()
-                extras.clear()
-            }*/
+
 
 
             MainTheme(
@@ -107,11 +116,11 @@ class MainActivity : ComponentActivity() {
                         },
                         isNightMode=isNightMode.value,
                         onEnableNotification={
-                            workManagerViewModel.isActiveWorkManager(enable = it )
+
                             workManagerViewModel.updateEnableNotification(it, id.value!!)
 
                         },
-                        enableNotification=enableNotification.value!!
+                        enableNotification=enableNotification.value ?: false
                     )
                 }
 
@@ -120,6 +129,9 @@ class MainActivity : ComponentActivity() {
     }
 
 }
+
+
+
 
 
 @Composable
