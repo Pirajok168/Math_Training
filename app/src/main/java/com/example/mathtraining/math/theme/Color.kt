@@ -34,7 +34,12 @@ val baseLightPalette = MathColor(
     headerColorSetting=Color(0xFF46365C),
 
     backgroundTobBarColor= Color(0x54E9E2CB),
-    colorDivider =   Color.LightGray
+    colorDivider =   Color.LightGray,
+
+    backgroundCreateAccount = Color(0xFF79CCEE),
+    backgroundInputSurface =  Color(0xFFFDE8E9),
+    focusedInputColor = Color(0xFFF68F02),
+    buttonColorRegistr= Color(0xFFF68F02),
 )
 
 val baseDarkPalette = baseLightPalette.copy(

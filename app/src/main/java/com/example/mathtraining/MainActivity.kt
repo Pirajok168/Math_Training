@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.getSystemService
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -39,11 +40,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mathtraining.math.theme.*
 import com.example.mathtraining.nav.LabelScreens
 import com.example.mathtraining.nav.Screens
-import com.example.mathtraining.screens.Lessons
-import com.example.mathtraining.screens.Profile
-import com.example.mathtraining.screens.Settings
-import com.example.mathtraining.screens.Statistic
+import com.example.mathtraining.screens.*
 import com.example.mathtraining.viewmodel.WorkManagerViewModel
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 const val ENABLE_NOTIFICATION = "enable_notification"
@@ -100,12 +99,18 @@ class MainActivity : ComponentActivity() {
                 val systemUiController = rememberSystemUiController()
                 SideEffect {
                     systemUiController.setSystemBarsColor(
-                        color = if(isNightMode.value) baseDarkPalette.backgroundTobBarColor else baseLightPalette.backgroundTobBarColor ,
+                        //color = if(isNightMode.value) baseDarkPalette.backgroundTobBarColor else baseLightPalette.backgroundTobBarColor ,
+                        color = baseDarkPalette.backgroundCreateAccount ,
                         darkIcons = true
                     )
 
+                    systemUiController.setNavigationBarColor(
+                        color = baseLightPalette.backgroundInputSurface
+                    )
 
                 }
+
+
                 Surface(color = MathTheme.colors.backgroundColor[0]) {
                     ScreenNavigation(
                         onChooseLocale = {
@@ -144,7 +149,11 @@ fun ScreenNavigation(
 ) {
     val navHostController = rememberNavController()
 
-    NavHost(navController = navHostController, startDestination = Screens.MainScreen.route){
+    NavHost(navController = navHostController, startDestination = Screens.CreateAccount.route){
+        composable(Screens.CreateAccount.route){
+            CreateAccount()
+        }
+
         composable(Screens.MainScreen.route){
             ScreenContent(
                 onMenuScreen={

@@ -30,6 +30,11 @@ data class MathColor(
     val headerColorSetting: Color,
     val backgroundTobBarColor: Color,
     val colorDivider: Color,
+    val backgroundCreateAccount: Color,
+    val backgroundInputSurface: Color,
+    val focusedInputColor: Color,
+    val buttonColorRegistr: Color,
+
 
 )
 
@@ -47,7 +52,17 @@ data class Localization(
     val changeCourse: Int,
     val applicationSettings: Int,
     val accountSettings: Int,
-    val localeApp: LocaleApp
+    val localeApp: LocaleApp,
+    val titleCreateAccount: Int,
+    val inputName: Int,
+    val inputSurname: Int,
+    val inputCountry: Int,
+    val register: Int,
+    val countryUsa: Int,
+    val countryRussia: Int,
+
+
+
 )
 
 object MathTheme{

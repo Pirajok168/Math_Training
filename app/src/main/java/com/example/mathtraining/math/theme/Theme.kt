@@ -36,6 +36,7 @@ fun MainTheme(
         }
 
     }
+
     val rippleIndication = rememberRipple()
 
     CompositionLocalProvider(

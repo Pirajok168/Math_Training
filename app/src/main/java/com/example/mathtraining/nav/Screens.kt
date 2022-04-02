@@ -19,4 +19,5 @@ sealed class Screens(val route: String,  val label: LabelScreens?, @DrawableRes 
 
     object Settings: Screens("settings", LabelScreens.Settings, R.drawable.ic_baseline_settings_24)
     object MainScreen: Screens("mainScreen", null, null)
+    object CreateAccount: Screens("createAccount", null, null)
 }
