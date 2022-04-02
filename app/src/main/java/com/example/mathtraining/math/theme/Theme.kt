@@ -20,7 +20,7 @@ fun MainTheme(
 ) {
     val colors = when (darkTheme){
         false -> {
-            baseLightPalette
+            testLightPalette
         }
         true -> {
             baseDarkPalette
@@ -36,6 +36,7 @@ fun MainTheme(
         }
 
     }
+
     val rippleIndication = rememberRipple()
 
     CompositionLocalProvider(

@@ -97,4 +97,6 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
 
+    implementation "com.google.accompanist:accompanist-insets:0.24.5-alpha"
+
 }

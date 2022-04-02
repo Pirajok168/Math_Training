@@ -81,7 +81,7 @@ fun Header(date: String) {
             modifier = Modifier
                 .size(120.dp),
             color = Color.Transparent,
-            border = BorderStroke(4.dp, Brush.linearGradient(MathTheme.colors.borderProfileColors) )
+            border = BorderStroke(3.dp, Brush.linearGradient(MathTheme.colors.borderProfileColors) )
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -107,11 +107,11 @@ fun Header(date: String) {
 
                 ) {
                 Divider(
-                    color = MathTheme.colors.colorDivider,
+                    color = MathTheme.colors.additionalColor,
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(3.dp)
-                        .alpha(0.6f)
+                        .alpha(0.3f)
                 )
                 Spacer(modifier = Modifier.size(25.dp))
                 Column(
@@ -120,18 +120,16 @@ fun Header(date: String) {
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(text = stringResource(id = MathTheme.localization.joined)
-                        , color =  MathTheme.colors.accentColor
-                        , fontWeight = FontWeight.Bold)
+                        , color =  MathTheme.colors.additionalColor, fontWeight = FontWeight.Medium)
 
                     Text(buildAnnotatedString {
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold
-                            , color = MathTheme.colors.accentColor)){
+                            , color = MathTheme.colors.accentColor, fontSize = 16.sp)){
                             append(date)
                         }
-                        withStyle(style = SpanStyle(color = MathTheme.colors.additionalColor)){
+                        withStyle(style = SpanStyle(color = MathTheme.colors.accentColor, fontSize = 16.sp)){
                             append(" mon ago")
                         }
-
                     })
                 }
             }

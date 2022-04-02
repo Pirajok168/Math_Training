@@ -18,6 +18,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -39,10 +40,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mathtraining.math.theme.*
 import com.example.mathtraining.nav.LabelScreens
 import com.example.mathtraining.nav.Screens
-import com.example.mathtraining.screens.Lessons
-import com.example.mathtraining.screens.Profile
-import com.example.mathtraining.screens.Settings
-import com.example.mathtraining.screens.Statistic
+import com.example.mathtraining.nav.SetupNavGraph
+import com.example.mathtraining.screens.*
 import com.example.mathtraining.viewmodel.WorkManagerViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -80,14 +79,12 @@ class MainActivity : ComponentActivity() {
 
             val enableNotification = workManagerViewModel.isActiveNotification.observeAsState(initial = null)
 
+
             val id = workManagerViewModel.id.observeAsState()
-            Log.e("work", "enableNotification = " + enableNotification.value.toString())
+            Log.e("user", "enableNotification = " + enableNotification.value.toString())
 
 
 
-            LaunchedEffect(0){
-                //workManagerViewModel.resetWorkManager(enableNotification.value!!)
-            }
 
 
 
@@ -100,13 +97,26 @@ class MainActivity : ComponentActivity() {
                 val systemUiController = rememberSystemUiController()
                 SideEffect {
                     systemUiController.setSystemBarsColor(
-                        color = if(isNightMode.value) baseDarkPalette.backgroundTobBarColor else baseLightPalette.backgroundTobBarColor ,
+                        color = if (id.value == null) {
+                            baseDarkPalette.backgroundCreateAccount
+                        }else{
+                            if(isNightMode.value) baseDarkPalette.backgroundTobBarColor else testLightPalette.backgroundTobBarColor
+                        },
                         darkIcons = true
                     )
 
+                    systemUiController.setNavigationBarColor(
+                        color = if (id.value == null) baseLightPalette.backgroundInputSurface else Color.White
+
+
+                    )
 
                 }
-                Surface(color = MathTheme.colors.backgroundColor[0]) {
+
+
+                Surface(
+                    color = MathTheme.colors.backgroundColor[0],
+                ) {
                     ScreenNavigation(
                         onChooseLocale = {
                             localeApp.value = it
@@ -144,7 +154,35 @@ fun ScreenNavigation(
 ) {
     val navHostController = rememberNavController()
 
-    NavHost(navController = navHostController, startDestination = Screens.MainScreen.route){
+    SetupNavGraph(
+        navController = navHostController,
+        isNightMode = isNightMode,
+        enableNotification = enableNotification,
+        onChooseNightMode = onChooseNightMode,
+        onEnableNotification = onEnableNotification,
+        onChooseLocale = onChooseLocale,
+        onSettingScreen = {
+            navHostController.navigate(Screens.Settings.route){
+                launchSingleTop = true
+            }
+        },
+        onNavigation = {
+                screen, popUpTo ->
+            navHostController.navigate(screen.route){
+                popUpTo(popUpTo){
+                    inclusive = true
+                }
+                launchSingleTop = true
+            }
+        }
+    )
+
+
+   /* NavHost(navController = navHostController, startDestination = Screens.CreateAccount.route){
+        composable(Screens.CreateAccount.route){
+            CreateAccount()
+        }
+
         composable(Screens.MainScreen.route){
             ScreenContent(
                 onMenuScreen={
@@ -165,7 +203,7 @@ fun ScreenNavigation(
             )
 
         }
-    }
+    }*/
 }
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -184,7 +222,8 @@ fun ScreenContent(onMenuScreen: () -> Unit) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush),
+            //.background(brush)
+                ,
         bottomBar = {
             AnimatedVisibility(
                 visible = !state.isScrollInProgress,
@@ -199,7 +238,7 @@ fun ScreenContent(onMenuScreen: () -> Unit) {
             TopBarLessons()
 
         },
-        backgroundColor = Color.Transparent
+        backgroundColor = MathTheme.colors.backgroundColor[0]
     ) {
             innerPadding ->
 
@@ -233,7 +272,9 @@ fun TopBarLessons() {
         )
         Divider(
             thickness = 2.dp,
-            color = MathTheme.colors.colorDivider
+            color = MathTheme.colors.additionalColor,
+            modifier = Modifier
+                .alpha(0.3f)
         )
     }
 
@@ -262,7 +303,11 @@ fun BottomBar(navController: NavHostController) {
             BottomNavigationItem(
                 icon = { Icon(painter = painterResource(id = screen.drawableRes!!), contentDescription = null) },
                 label = {
-                    AnimatedVisibility(visible = selected) {
+                    AnimatedVisibility(
+                        visible = selected,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
                         Text(stringResource(id =
                                 when(screen.label){
                                     LabelScreens.Lessons -> {

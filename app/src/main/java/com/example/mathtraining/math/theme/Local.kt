@@ -22,7 +22,14 @@ val enLocal = Localization(
     changeCourse = R.string.changeCourse,
     applicationSettings = R.string.applicationSettings,
     accountSettings = R.string.accountSettings,
-    localeApp = LocaleApp.English
+    localeApp = LocaleApp.English,
+    titleCreateAccount = R.string.titleCreateAccount,
+    inputName = R.string.inputName,
+    inputSurname= R.string.surname,
+    inputCountry = R.string.country,
+    register = R.string.register,
+    countryUsa = R.string.inputCountry,
+    countryRussia= R.string.countryRussia
 )
 
 val ruLocal = Localization(
@@ -38,5 +45,12 @@ val ruLocal = Localization(
     changeCourse = R.string.ruChangeCourse,
     applicationSettings = R.string.ruApplicationSettings,
     accountSettings = R.string.ruAccountSettings,
-    localeApp = LocaleApp.Russian
+    localeApp = LocaleApp.Russian,
+    titleCreateAccount = R.string.ruRitleCreateAccount,
+    inputName = R.string.ruInputName,
+    inputSurname= R.string.ruSurname,
+    inputCountry = R.string.tuCountry,
+    register = R.string.ruRegister,
+    countryUsa = R.string.ruInputCountry,
+    countryRussia= R.string.ruCountryRussia
 )

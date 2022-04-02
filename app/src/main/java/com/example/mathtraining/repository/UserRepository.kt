@@ -25,6 +25,12 @@ class UserRepository(context: Context) {
         userDao.insert(user)
     }
 
+    suspend fun isExists(): Boolean{
+        return userDao.isExists()
+    }
+
+
+
     companion object{
         private var INSTANCE: UserRepository? = null
 

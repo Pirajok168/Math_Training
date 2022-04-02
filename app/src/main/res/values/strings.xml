@@ -26,6 +26,20 @@
     <string name="ruAccountSettings">Настройки аккаунта</string>
     <string name="channel_name">Уведомления</string>
     <string name="channel_description">Уведомление о занятиях</string>
+    <string name="titleCreateAccount">Create account</string>
+    <string name="ruRitleCreateAccount">Создать аккаунт</string>
+    <string name="inputName">Name</string>
+    <string name="ruInputName">Имя</string>
+    <string name="surname">Surname</string>
+    <string name="ruSurname">Фамилия</string>
+    <string name="country">Country</string>
+    <string name="tuCountry">Страна</string>
+    <string name="register">Sign in</string>
+    <string name="ruRegister">Войти</string>
+    <string name="inputCountry">USA</string>
+    <string name="ruInputCountry">США</string>
+    <string name="countryRussia">Russia</string>
+    <string name="ruCountryRussia">Россия</string>
 
 
     <string-array name="courser">

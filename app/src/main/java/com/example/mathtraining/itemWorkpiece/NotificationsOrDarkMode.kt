@@ -1,5 +1,6 @@
 package com.example.mathtraining.itemWorkpiece
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
@@ -28,6 +29,7 @@ fun DarkMode(@StringRes label: Int,
              onChange: (value: Boolean)-> Unit,
 
 ) {
+    Log.e("user","DarkMode - $isNightMode")
     val check = remember {
         mutableStateOf(isNightMode)
     }

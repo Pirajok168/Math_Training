@@ -17,6 +17,7 @@ val baseLightPalette = MathColor(
 
     backgroundColor = listOf(Color(0x54E9E2CB), Color(0x48E6B6A8)),
 
+
     backgroundColorIconNotifications= Color(0x5B7080D7),
     tintColorIconNotifications=Color(0xFF4A60D7),
 
@@ -34,7 +35,43 @@ val baseLightPalette = MathColor(
     headerColorSetting=Color(0xFF46365C),
 
     backgroundTobBarColor= Color(0x54E9E2CB),
-    colorDivider =   Color.LightGray
+    colorDivider =   Color.LightGray,
+
+    backgroundCreateAccount = Color(0xFF79CCEE),
+    backgroundInputSurface =  Color(0xFFFDE8E9),
+    focusedInputColor = Color(0xFFF68F02),
+    buttonColorRegistr= Color(0xFFF68F02),
+)
+
+val testLightPalette = baseLightPalette.copy(
+    backgroundColor = listOf(Color(0xFFFFFFFF), Color(0xFFFFFFFF)),
+    accentColor = Color.Black,
+    additionalColor = Color.LightGray,
+
+    borderProfileColors = listOf(Color(0xFFFDB515), Color(0xFFFDB515)),
+    backgroundTobBarColor = Color.White,
+
+    backgroundSettingColor =  Color(0xFFEFF9FF),
+    tintSettingsColor = Color(0xFF5899E2),
+
+    backgroundLearnedColor = Color(0xFFFFF1D4),
+    tintLearnedColor = Color(0xFFFF9933),
+
+    backgroundColorIconNotifications= Color(0xFFDFE4FF),
+    tintColorIconNotifications=Color(0xFF4A60D7),
+
+    backgroundColorIconDarkMode= Color(0xFFF1FBFF),
+    tintColorIconDarkMode= Color(0xFF000000),
+
+    backgroundColorIconChangeLange=Color(0xFFFFDFDB),
+    tintColorIconChangeLange = Color(0xFFFF1E00),
+
+    backgroundColorIconChooseCourse=Color(0xFFF2E7F8),
+    tintColorIconChooseCourse=Color(0xFF9F3ED5),
+
+    navBarColor=listOf(Color(0xFF79CCEE), Color(0xFF79CCEE)),
+    selectedNavItem =Color(0xFFFDB515),
+
 )
 
 val baseDarkPalette = baseLightPalette.copy(
