@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface UserDao {
     @Query("SELECT * FROM user_profile")
-    fun getInfoUser(): Flow<User>
+    fun getInfoUser(): Flow<User?>
 
     @Query("SELECT isActiveNotification FROM user_profile")
     fun getEnableNotification(): LiveData<Boolean>
@@ -28,5 +28,9 @@ interface UserDao {
 
     @Query("UPDATE user_profile SET isActiveNotification=:enable WHERE id=:id")
     suspend fun updateIsActiveNotification(enable: Boolean, id: Int)
+
+
+    @Query("SELECT EXISTS(SELECT * FROM user_profile)")
+    suspend fun isExists(): Boolean
 
 }

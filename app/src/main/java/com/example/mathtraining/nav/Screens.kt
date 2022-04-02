@@ -11,7 +11,9 @@ enum class LabelScreens{
     Settings,
     MainScreen
 }
-
+const val AUTH_GRAPH_ROUTE = "auth"
+const val ROOT_GRAPH_ROUTE = "root"
+const val MAIN_GRAPH_ROUTE = "main"
 sealed class Screens(val route: String,  val label: LabelScreens?, @DrawableRes val drawableRes: Int?){
     object Lessons: Screens("lessons",LabelScreens.Lessons, R.drawable.ic_baseline_calculate_24)
     object Statistic: Screens("statistic", LabelScreens.Statistic, R.drawable.ic_baseline_stairs_24)
@@ -20,4 +22,5 @@ sealed class Screens(val route: String,  val label: LabelScreens?, @DrawableRes 
     object Settings: Screens("settings", LabelScreens.Settings, R.drawable.ic_baseline_settings_24)
     object MainScreen: Screens("mainScreen", null, null)
     object CreateAccount: Screens("createAccount", null, null)
+    object SplashScreen: Screens("splashScreen", null, null)
 }

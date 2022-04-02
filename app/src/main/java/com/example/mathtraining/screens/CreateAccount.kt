@@ -42,20 +42,27 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mathtraining.R
 import com.example.mathtraining.math.theme.MathTheme
 import com.example.mathtraining.math.theme.baseLightPalette
+import com.example.mathtraining.nav.AUTH_GRAPH_ROUTE
+import com.example.mathtraining.nav.Screens
 import com.example.mathtraining.viewmodel.CreateAccountViewModel
 import com.google.accompanist.insets.LocalWindowInsets
 
 @Composable
-fun CreateAccount() {
+fun CreateAccount(
+    onNavigation: (screen: Screens, popUpTo: String) -> Unit
+) {
     Scaffold(
         backgroundColor = MathTheme.colors.backgroundCreateAccount,
     ) {
-        BackgroundForInput()
+        BackgroundForInput(onNavigation)
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun BackgroundForInput() {
+fun BackgroundForInput(
+    onNavigation: (screen: Screens, popUpTo: String) -> Unit
+) {
 
 
     val viewModelCreateAccount: CreateAccountViewModel = viewModel()
@@ -132,7 +139,11 @@ fun BackgroundForInput() {
                         Surface(
                             shape = CircleShape,
                             color = MathTheme.colors.buttonColorRegistr,
-                            modifier = Modifier.size(60.dp)
+                            modifier = Modifier.size(60.dp),
+                            onClick = {
+                                viewModelCreateAccount.createUser()
+                                onNavigation(Screens.MainScreen, AUTH_GRAPH_ROUTE)
+                            }
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.KeyboardArrowRight,

@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -49,7 +50,8 @@ fun CardInfoOrSetting(@StringRes label: Int, @DrawableRes icon: Int, backColor: 
             }
         }
         Surface(modifier = Modifier
-            .size(50.dp),
+            .size(50.dp)
+            .alpha(0.5f),
             color = Color.LightGray,
             indication = rememberRipple(bounded = false),
             shape = RoundedCornerShape(5.dp),
