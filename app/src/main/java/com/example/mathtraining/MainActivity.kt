@@ -79,14 +79,8 @@ class MainActivity : ComponentActivity() {
 
             val enableNotification = workManagerViewModel.isActiveNotification.observeAsState(initial = null)
 
-
             val id = workManagerViewModel.id.observeAsState()
             Log.e("user", "enableNotification = " + enableNotification.value.toString())
-
-
-
-
-
 
 
 
@@ -244,7 +238,7 @@ fun ScreenContent(onMenuScreen: () -> Unit) {
 
         NavHost(navController, startDestination = Screens.Lessons.route, Modifier.padding(top=innerPadding.calculateTopPadding())) {
             composable(Screens.Statistic.route) {
-                Statistic()
+                Statistic(innerPadding)
             }
             composable(Screens.Lessons.route) {
                 Lessons(state)
