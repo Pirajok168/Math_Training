@@ -33,4 +33,22 @@ interface UserDao {
     @Query("SELECT EXISTS(SELECT * FROM user_profile)")
     suspend fun isExists(): Boolean
 
+
+    @Transaction
+    @Query("SELECT * FROM user_profile")
+    fun getActiveUser(): LiveData<ActiveUser>
+
+    @Insert
+    suspend fun insert(statistic: Statistic)
+
+    @Transaction
+    suspend fun testInsert(userActiveUser: ActiveUser){
+        insert(userActiveUser.user)
+
+        userActiveUser.listStatistic.forEach {
+           insert(it)
+        }
+    }
+
+
 }

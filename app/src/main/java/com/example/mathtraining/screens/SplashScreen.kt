@@ -25,6 +25,7 @@ fun SplashScreen(
     val exists = viewAuthViewModel.exists
     when (exists.value) {
         true ->{
+            viewAuthViewModel.validate()
             onNavigation(Screens.MainScreen, AUTH_GRAPH_ROUTE)
             Log.e("exists" ,"существует")
         }

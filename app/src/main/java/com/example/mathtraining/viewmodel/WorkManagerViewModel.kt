@@ -9,10 +9,12 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.*
+import com.example.mathtraining.database.ActiveUser
 import com.example.mathtraining.repository.UserRepository
 import com.example.mathtraining.workmanager.UploadWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,6 +39,11 @@ class WorkManagerViewModel  @Inject constructor (
     val user = userRepository.user
     val id = userRepository.id
     val isActiveNotification = userRepository.isActiveNotification
+
+    private val  _activeUser = userRepository.activeUser
+    val activeUser
+        get() = _activeUser
+
 
     private var uploadWorkRequest: WorkRequest =  OneTimeWorkRequestBuilder<UploadWorker>()
         .setBackoffCriteria(

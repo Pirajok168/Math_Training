@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -42,8 +43,12 @@ import com.example.mathtraining.nav.LabelScreens
 import com.example.mathtraining.nav.Screens
 import com.example.mathtraining.nav.SetupNavGraph
 import com.example.mathtraining.screens.*
+import com.example.mathtraining.viewmodel.ActiveUserViewModel
+import com.example.mathtraining.viewmodel.Event
 import com.example.mathtraining.viewmodel.WorkManagerViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 const val ENABLE_NOTIFICATION = "enable_notification"
 class MainActivity : ComponentActivity() {
@@ -73,9 +78,13 @@ class MainActivity : ComponentActivity() {
             }
 
             val workManagerViewModel:WorkManagerViewModel = hiltViewModel()
-
-
-
+            val activeUserViewModel: ActiveUserViewModel = viewModel()
+            val state = activeUserViewModel.event
+            when(state.value){
+                is Event.Success ->{
+                    activeUserViewModel.validate()
+                }
+            }
 
             val enableNotification = workManagerViewModel.isActiveNotification.observeAsState(initial = null)
 
@@ -83,12 +92,20 @@ class MainActivity : ComponentActivity() {
             Log.e("user", "enableNotification = " + enableNotification.value.toString())
 
 
+            val scope = rememberCoroutineScope()
+
 
             MainTheme(
                 locale = localeApp.value,
                 darkTheme = isNightMode.value
             ) {
                 val systemUiController = rememberSystemUiController()
+
+                val obj = workManagerViewModel.activeUser.observeAsState()
+                Log.e("obj", obj.toString())
+
+
+
                 SideEffect {
                     systemUiController.setSystemBarsColor(
                         color = if (id.value == null) {

@@ -1,13 +1,10 @@
 package com.example.mathtraining.screens
 
 import android.util.Log
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -104,6 +101,7 @@ fun ElemLesson(i: Int) {
     ) {
         Box(modifier = Modifier
             .size(120.dp)
+            .clickable {  }
             .background(Gradient.listGradient.random(), CircleShape), contentAlignment = Alignment.Center){
             Text(
                 text = i.toString(),
