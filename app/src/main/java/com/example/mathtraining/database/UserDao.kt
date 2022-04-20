@@ -33,4 +33,9 @@ interface UserDao {
     @Query("SELECT EXISTS(SELECT * FROM user_profile)")
     suspend fun isExists(): Boolean
 
+
+    @Transaction
+    @Query("SELECT * FROM user_profile")
+    fun getTest(): LiveData<ActiveUser>
+
 }

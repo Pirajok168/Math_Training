@@ -1,7 +1,9 @@
 package com.example.mathtraining.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.room.Room
+import com.example.mathtraining.database.ActiveUser
 import com.example.mathtraining.database.User
 import com.example.mathtraining.database.UserDatabase
 
@@ -16,6 +18,10 @@ class UserRepository(context: Context) {
     val user = userDao.getInfoUser()
     val isActiveNotification = userDao.getEnableNotification()
     val id = userDao.getId()
+
+
+
+    fun getTest(): LiveData<ActiveUser> = userDao.getTest()
 
     suspend fun updateEnableNotification(enable: Boolean, id: Int){
         userDao.updateIsActiveNotification(enable, id)

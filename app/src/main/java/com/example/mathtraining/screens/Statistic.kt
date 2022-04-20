@@ -31,6 +31,7 @@ import java.util.*
 import kotlin.io.path.Path
 
 
+
 data class Statistic(val day: Date, val statTrack: Float)
 
 object SampleData {
