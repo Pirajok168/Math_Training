@@ -40,10 +40,10 @@ class WorkManagerViewModel  @Inject constructor (
     val id = userRepository.id
     val isActiveNotification = userRepository.isActiveNotification
 
+    private val  _activeUser = userRepository.activeUser
+    val activeUser
+        get() = _activeUser
 
-    fun getTest(): LiveData<ActiveUser>{
-        return userRepository.getTest()
-    }
 
     private var uploadWorkRequest: WorkRequest =  OneTimeWorkRequestBuilder<UploadWorker>()
         .setBackoffCriteria(

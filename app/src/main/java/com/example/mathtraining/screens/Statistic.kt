@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -25,44 +26,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mathtraining.R
+import com.example.mathtraining.database.Statistic
+import com.example.mathtraining.viewmodel.UserStatisticViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.io.path.Path
 
 
 
-data class Statistic(val day: Date, val statTrack: Float)
 
-object SampleData {
-    val data = listOf(
-        Statistic(Date(), 3f),
-        Statistic(Date(), 1f),
-        Statistic(Date(), 4f),
-        Statistic(Date(), 5f),
-        Statistic(Date(), 8f),
-    )
-
-    val data2 = listOf(
-        Statistic(Date(), 8f),
-        Statistic(Date(), 4f),
-        Statistic(Date(), 2f),
-    )
-
-
-    val data3 = listOf(
-        Statistic(Date(), 10f)
-    )
-}
 
 @Composable
-fun Statistic(innerPadding: PaddingValues) {
-
+fun Statistic(
+    innerPadding: PaddingValues,
+    userStatisticViewModel: UserStatisticViewModel = viewModel()
+) {
+    val activeUser = userStatisticViewModel.activeUser.observeAsState(null)
 
     Scaffold(
         modifier = Modifier.padding(innerPadding)
     ){
-        val list = SampleData.data
+        val list = activeUser.value?.listStatistic
         
         Column(
             modifier = Modifier
@@ -86,7 +72,7 @@ fun Statistic(innerPadding: PaddingValues) {
                 .padding(10.dp)
             , contentAlignment = Alignment.BottomCenter
         ){
-            Graph(list, Color.Blue, Color.Black)
+            Graph( list ?: listOf(), Color.Blue, Color.Black)
 
             
         }

@@ -94,8 +94,7 @@ class MainActivity : ComponentActivity() {
             ) {
                 val systemUiController = rememberSystemUiController()
 
-                val obj = workManagerViewModel.getTest().observeAsState()
-
+                val obj = workManagerViewModel.activeUser.observeAsState()
                 Log.e("obj", obj.toString())
 
                 SideEffect {
