@@ -31,5 +31,5 @@ data class ActiveUser(
                 parentColumn = "id",
                 entityColumn = "userOwnerId"
         )
-        val listStatistic: List<Statistic>
+        val listStatistic: MutableList<Statistic>
 )

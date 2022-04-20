@@ -72,7 +72,9 @@ fun Statistic(
                 .padding(10.dp)
             , contentAlignment = Alignment.BottomCenter
         ){
-            Graph( list ?: listOf(), Color.Blue, Color.Black)
+            Graph( list?.sortedBy {
+                it.day
+            } ?: listOf(), Color.Blue, Color.Black)
 
             
         }

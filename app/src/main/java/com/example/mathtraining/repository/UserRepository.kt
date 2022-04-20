@@ -41,6 +41,10 @@ class UserRepository(context: Context) {
     }
 
 
+    suspend fun insertNewValueStatistic(statistic: Statistic){
+        userDao.insert(statistic)
+    }
+
 
     companion object{
         private var INSTANCE: UserRepository? = null
