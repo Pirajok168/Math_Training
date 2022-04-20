@@ -29,7 +29,8 @@ val enLocal = Localization(
     inputCountry = R.string.country,
     register = R.string.register,
     countryUsa = R.string.inputCountry,
-    countryRussia= R.string.countryRussia
+    countryRussia= R.string.countryRussia,
+    toastLabel = R.string.toastLabel
 )
 
 val ruLocal = Localization(
@@ -52,5 +53,6 @@ val ruLocal = Localization(
     inputCountry = R.string.tuCountry,
     register = R.string.ruRegister,
     countryUsa = R.string.ruInputCountry,
-    countryRussia= R.string.ruCountryRussia
+    countryRussia= R.string.ruCountryRussia,
+    toastLabel = R.string.ruToasLabel
 )

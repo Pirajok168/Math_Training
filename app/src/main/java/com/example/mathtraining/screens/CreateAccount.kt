@@ -1,6 +1,7 @@
 package com.example.mathtraining.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -30,6 +31,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -70,8 +72,8 @@ fun BackgroundForInput(
     val country = viewModelCreateAccount.selectedCountry
     val name = viewModelCreateAccount.nameUser
     val surname = viewModelCreateAccount.surnameUser
-
-
+    val context = LocalContext.current
+    val toastLabel = stringResource(id = MathTheme.localization.toastLabel)
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd){
         Surface(
@@ -141,8 +143,15 @@ fun BackgroundForInput(
                             color = MathTheme.colors.buttonColorRegistr,
                             modifier = Modifier.size(60.dp),
                             onClick = {
-                                viewModelCreateAccount.createUser()
-                                onNavigation(Screens.MainScreen, AUTH_GRAPH_ROUTE)
+                                if(name.value.isEmpty() || surname.value.isEmpty() || country.value.isEmpty()){
+                                    Toast.makeText(
+                                        context,
+                                        toastLabel,
+                                        Toast.LENGTH_SHORT).show()
+                                }else{
+                                    viewModelCreateAccount.createUser()
+                                    onNavigation(Screens.MainScreen, AUTH_GRAPH_ROUTE)
+                                }
                             }
                         ) {
                             Icon(
@@ -231,7 +240,7 @@ fun Input(
                             )
                             DropdownMenu(
                                 expanded = expanded.value,
-                                onDismissRequest = { /*TODO*/ }
+                                onDismissRequest = { expanded.value=false }
                             ) {
                                 DropdownMenuItem(onClick = {
                                     focusManager.clearFocus()

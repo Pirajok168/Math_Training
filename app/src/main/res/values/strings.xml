@@ -40,6 +40,8 @@
     <string name="ruInputCountry">США</string>
     <string name="countryRussia">Russia</string>
     <string name="ruCountryRussia">Россия</string>
+    <string name="toastLabel">The fields must be filled in</string>
+    <string name="ruToasLabel">Поля должны быть заполнены</string>
 
 
     <string-array name="courser">

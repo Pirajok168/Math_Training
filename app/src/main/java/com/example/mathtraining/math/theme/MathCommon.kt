@@ -36,6 +36,7 @@ data class MathColor(
     val buttonColorRegistr: Color,
 
 
+
 )
 
 
@@ -60,9 +61,7 @@ data class Localization(
     val register: Int,
     val countryUsa: Int,
     val countryRussia: Int,
-
-
-
+    val toastLabel: Int
 )
 
 object MathTheme{
