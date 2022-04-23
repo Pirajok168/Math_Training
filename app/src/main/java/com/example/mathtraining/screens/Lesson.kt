@@ -67,7 +67,14 @@ fun Lesson() {
 
                 }
             )
-            Answer(focusRequest, focusManager)
+            Answer(focusRequest, focusManager, onShowIME={
+
+                focusRequest.requestFocus()
+                if(it == Inputs.Second){
+                    focusManager.moveFocus(FocusDirection.Next)
+                }
+                keyboard?.show()
+            })
 
             CheckAnswer()
         }
@@ -149,8 +156,18 @@ fun CheckAnswer(
     }
 }
 
+enum class Inputs{
+    First,
+    Second
+}
+
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun Answer(focusRequest: FocusRequester, focusManager: FocusManager) {
+fun Answer(
+    focusRequest: FocusRequester,
+    focusManager: FocusManager,
+    onShowIME: (inputs: Inputs) -> Unit
+) {
     val firstNumber = remember{
         mutableStateOf("")
     }
@@ -168,15 +185,22 @@ fun Answer(focusRequest: FocusRequester, focusManager: FocusManager) {
             .padding(10.dp)
             .weight(1f),
             color = Color.Black,
-            shape = RoundedCornerShape(30.dp)
+            shape = RoundedCornerShape(30.dp),
+            onClick = {
+                onShowIME(Inputs.First)
+            }
         ) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center ){
 
                 BasicTextField(
                     value = firstNumber.value,
                     onValueChange = {
+
                         if (firstNumber.value.isEmpty()){
                             firstNumber.value = it
+                        }
+                        if (it.isEmpty()){
+                            firstNumber.value = ""
                         }
 
                     },
@@ -201,6 +225,9 @@ fun Answer(focusRequest: FocusRequester, focusManager: FocusManager) {
             .height(200.dp)
             .padding(10.dp)
             .weight(1f),
+            onClick = {
+                onShowIME(Inputs.Second)
+            },
             color = Color.Black,
             shape = RoundedCornerShape(30.dp)
         ) {
@@ -211,7 +238,9 @@ fun Answer(focusRequest: FocusRequester, focusManager: FocusManager) {
                         if (secondNumber.value.isEmpty()){
                             secondNumber.value = it
                         }
-
+                        if (it.isEmpty()){
+                            secondNumber.value = ""
+                        }
                     },
                     modifier = Modifier,
                     keyboardOptions = KeyboardOptions(
@@ -223,7 +252,8 @@ fun Answer(focusRequest: FocusRequester, focusManager: FocusManager) {
                             focusManager.moveFocus(FocusDirection.Next)
                         }
                     ),
-                    singleLine = true
+                    singleLine = true,
+
                 )
                 Text(text = secondNumber.value, color = Color.White ,fontSize =  130.sp, fontWeight = FontWeight.ExtraBold)
             }
