@@ -1,6 +1,7 @@
 package com.example.mathtraining.screens
 
 import android.graphics.Typeface
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -35,11 +37,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mathtraining.R
+import com.example.mathtraining.viewmodel.StateAnswer
+import com.example.mathtraining.viewmodel.TwoBitLessonViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Lesson() {
+fun Lesson(
+    viewModelTwoBit: TwoBitLessonViewModel = viewModel()
+) {
     val keyboard = LocalSoftwareKeyboardController.current
     val focusRequest = FocusRequester.Default
     val focusManager = LocalFocusManager.current
@@ -47,7 +54,18 @@ fun Lesson() {
     val scrollState = rememberScrollState()
     val scope = rememberCoroutineScope()
 
+    val stateAnswer = viewModelTwoBit.stateAnswer
+    val context = LocalContext.current
 
+    when(stateAnswer.value){
+        is StateAnswer.Successfully->{
+            Toast.makeText(context, "Красава", Toast.LENGTH_SHORT).show()
+        }
+
+        is StateAnswer.Error->{
+            Toast.makeText(context, "Лох ебучий иди нахуй", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     Scaffold(
         modifier = Modifier,
@@ -57,7 +75,7 @@ fun Lesson() {
             .padding(10.dp)
             .verticalScroll(scrollState)) {
             InfoForLessons()
-            CaseStudy(38, 21, "plus")
+            CaseStudy(viewModelTwoBit.firstNum, viewModelTwoBit.secondNum, "plus")
             KeyIMO(
                 onShowIME = {
 
@@ -67,16 +85,30 @@ fun Lesson() {
 
                 }
             )
-            Answer(focusRequest, focusManager, onShowIME={
+            Answer(
+                focusRequest,
+                focusManager,
+                onShowIME={
 
-                focusRequest.requestFocus()
-                if(it == Inputs.Second){
-                    focusManager.moveFocus(FocusDirection.Next)
+                    focusRequest.requestFocus()
+                    if(it == Inputs.Second){
+                        focusManager.moveFocus(FocusDirection.Next)
+                    }
+                    keyboard?.show()
+                },
+                onFirst = {
+                    viewModelTwoBit.userInputFirst.value = it
+                },
+                onSecond = {
+                    viewModelTwoBit.userInputSecond.value = it
                 }
-                keyboard?.show()
-            })
+            )
 
-            CheckAnswer()
+            CheckAnswer(
+                onDone={
+                    viewModelTwoBit.checkAnswerUser()
+                }
+            )
         }
     }
 }
@@ -136,9 +168,10 @@ fun CaseStudy(
 }
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CheckAnswer(
-
+    onDone: () -> Unit
 ) {
     Spacer(modifier = Modifier.size(20.dp))
 
@@ -146,7 +179,10 @@ fun CheckAnswer(
         modifier = Modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
-        color = Color.Black
+        color = Color.Black,
+        onClick = {
+            onDone()
+        }
     ) {
         Box(modifier = Modifier
             .fillMaxSize()
@@ -166,7 +202,9 @@ enum class Inputs{
 fun Answer(
     focusRequest: FocusRequester,
     focusManager: FocusManager,
-    onShowIME: (inputs: Inputs) -> Unit
+    onShowIME: (inputs: Inputs) -> Unit,
+    onFirst: (a: String) -> Unit,
+    onSecond: (a: String) -> Unit
 ) {
     val firstNumber = remember{
         mutableStateOf("")
@@ -198,9 +236,11 @@ fun Answer(
 
                         if (firstNumber.value.isEmpty()){
                             firstNumber.value = it
+                            onFirst(firstNumber.value)
                         }
                         if (it.isEmpty()){
                             firstNumber.value = ""
+                            onFirst("")
                         }
 
                     },
@@ -237,9 +277,11 @@ fun Answer(
                     onValueChange = {
                         if (secondNumber.value.isEmpty()){
                             secondNumber.value = it
+                            onSecond(secondNumber.value)
                         }
                         if (it.isEmpty()){
                             secondNumber.value = ""
+                            onSecond("")
                         }
                     },
                     modifier = Modifier,
