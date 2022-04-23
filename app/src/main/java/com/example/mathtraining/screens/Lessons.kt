@@ -19,7 +19,10 @@ import androidx.compose.ui.unit.sp
 import java.util.*
 
 @Composable
-fun Lessons(state: ScrollState) {
+fun Lessons(
+    state: ScrollState,
+    onLessonScreen: () -> Unit
+) {
     SideEffect {
         Log.e("test", "Lessons-recompose")
     }
@@ -38,7 +41,8 @@ fun Lessons(state: ScrollState) {
         .fillMaxWidth()
         .verticalScroll(state)) {
         Spacer(modifier = Modifier.size(10.dp))
-        while (true){
+        ElemLesson(list[i], onLessonScreen=onLessonScreen)
+       /* while (true){
             if (i>=list.size){
                 break
             }
@@ -69,7 +73,7 @@ fun Lessons(state: ScrollState) {
                 }
             }
 
-        }
+        }*/
         Spacer(modifier = Modifier.size(75.dp))
     }
 
@@ -92,10 +96,37 @@ object Gradient{
 }
 
 @Composable
-fun ElemLesson(i: Int) {
+fun ElemLesson(
+    i: Int,
+    onLessonScreen: () -> Unit
+) {
+
+    Box(modifier = Modifier
+        .size(120.dp)
+        .clickable { onLessonScreen() }
+        .background(Gradient.listGradient.random(), CircleShape), contentAlignment = Alignment.Center){
+        Text(
+            text = i.toString(),
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+            fontSize = 65.sp
+        )
+
+    }
+
+    Text(text = "testwww",
+        modifier = Modifier
+            .requiredWidth(70.dp)
+            .padding(top = 10.dp),
+        textAlign = TextAlign.Center,
+        color = Color(0xFF6782B4),
+        fontWeight = FontWeight.Bold
+    )
 
 
-    Column(
+  /*  Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -122,7 +153,7 @@ fun ElemLesson(i: Int) {
             color = Color(0xFF6782B4),
             fontWeight = FontWeight.Bold
         )
-    }
+    }*/
     
 
 

@@ -18,10 +18,12 @@ fun SetupNavGraph(
     onChooseLocale: (locale: LocaleApp) -> Unit,
     onChooseNightMode: (isNightMode: Boolean) -> Unit,
     onEnableNotification: (enable: Boolean) -> Unit,
+    onLessonScreen: () -> Unit,
     onSettingScreen: () -> Unit
 ){
     NavHost(navController = navController, startDestination = AUTH_GRAPH_ROUTE, route = ROOT_GRAPH_ROUTE ){
         authGraph(navController = navController, onNavigation)
+        lessonGraph(navController = navController)
 
         composable(Screens.CreateAccount.route){
             CreateAccount(onNavigation)
@@ -29,7 +31,8 @@ fun SetupNavGraph(
 
         composable(Screens.MainScreen.route){
             ScreenContent(
-                onMenuScreen=onSettingScreen
+                onMenuScreen=onSettingScreen,
+                onLessonScreen=onLessonScreen
             )
         }
 

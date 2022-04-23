@@ -17,7 +17,8 @@ fun NavGraphBuilder.mainGraph(
     onChooseNightMode: (isNightMode: Boolean) -> Unit,
     onEnableNotification: (enable: Boolean) -> Unit,
     onSettingScreen: () -> Unit,
-    onNavigation: (screen: Screens, popUpTo: String) -> Unit
+    onNavigation: (screen: Screens, popUpTo: String) -> Unit,
+    onLessonScreen: () -> Unit
 ){
     navigation(
         startDestination = Screens.MainScreen.route,
@@ -29,7 +30,8 @@ fun NavGraphBuilder.mainGraph(
 
         composable(Screens.MainScreen.route){
             ScreenContent(
-                onMenuScreen=onSettingScreen
+                onMenuScreen=onSettingScreen,
+                onLessonScreen=onLessonScreen
             )
         }
 

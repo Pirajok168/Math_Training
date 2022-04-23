@@ -185,41 +185,25 @@ fun ScreenNavigation(
                 }
                 launchSingleTop = true
             }
+        },
+        onLessonScreen={
+            navHostController.navigate(Screens.LessonScreen.route){
+                launchSingleTop = true
+            }
         }
+
     )
 
 
-   /* NavHost(navController = navHostController, startDestination = Screens.CreateAccount.route){
-        composable(Screens.CreateAccount.route){
-            CreateAccount()
-        }
 
-        composable(Screens.MainScreen.route){
-            ScreenContent(
-                onMenuScreen={
-                    navHostController.navigate(Screens.Settings.route){
-                        launchSingleTop = true
-                    }
-                }
-            )
-        }
-
-        composable(Screens.Settings.route){
-            Settings(
-                isNightMode=isNightMode,
-                onChooseLocale = onChooseLocale,
-                onChooseNightMode = onChooseNightMode,
-                enableNotification = enableNotification,
-                onEnableNotification=onEnableNotification
-            )
-
-        }
-    }*/
 }
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ScreenContent(onMenuScreen: () -> Unit) {
+fun ScreenContent(
+    onMenuScreen: () -> Unit,
+    onLessonScreen: () -> Unit
+) {
     val navController = rememberNavController()
     val listColors = MathTheme.colors.backgroundColor
     val brush = Brush.linearGradient(listColors)
@@ -258,7 +242,10 @@ fun ScreenContent(onMenuScreen: () -> Unit) {
                 Statistic(innerPadding)
             }
             composable(Screens.Lessons.route) {
-                Lessons(state)
+                Lessons(
+                    state,
+                    onLessonScreen=onLessonScreen
+                )
             }
             composable(Screens.Profile.route) {
                 Profile(onMenuScreen)
