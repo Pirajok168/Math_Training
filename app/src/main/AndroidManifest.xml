@@ -14,8 +14,8 @@
 
         android:theme="@style/Theme.MathTraining">
         <activity
-            android:windowSoftInputMode="adjustPan"
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.MathTraining">
