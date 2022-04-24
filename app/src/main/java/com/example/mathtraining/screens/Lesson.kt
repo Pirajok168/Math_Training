@@ -351,14 +351,35 @@ fun InfoForLessons(health: Int) {
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+
+
             Health(health)
-            HowMuch(10, 10)
+
+
+
+
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .weight(5f)
+                .padding(start = 20.dp)){
+                HowMuch(10, 10)
+            }
+
+
+            IconButton(onClick = {  }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_pause_24),
+                    contentDescription = "",
+                    modifier = Modifier.weight(1f)
+                )
+            }
 
         }
     }
 
-
 }
+
+
 
 
 
@@ -367,7 +388,11 @@ fun InfoForLessons(health: Int) {
 fun Health(health: Int) {
 
 
-    BadgeBox(badgeContent = { Text(text = health.toString(), fontSize = 14.sp) }) {
+    BadgeBox(
+        badgeContent = { Text(text = health.toString(),
+            fontSize = 14.sp,
+            modifier = Modifier
+        ) }) {
         Icon(
             imageVector = Icons.Default.Favorite,
             contentDescription = "",
@@ -379,7 +404,14 @@ fun Health(health: Int) {
     }
 
 
+}
 
+@Preview
+@Composable
+fun LessPrev() {
+    MaterialTheme() {
+        InfoForLessons(10)
+    }
 }
 
 @Composable
@@ -392,6 +424,8 @@ fun HowMuch(
             .fillMaxWidth()
             .height(30.dp)
             .padding(end = 20.dp)
+
+
     ){
         val with = size.width
         val height = size.height
@@ -418,10 +452,3 @@ fun HowMuch(
 }
 
 
-@Preview
-@Composable
-fun LessPrev() {
-    MaterialTheme() {
-        Lesson()
-    }
-}
