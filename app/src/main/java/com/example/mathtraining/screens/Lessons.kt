@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -37,49 +39,16 @@ fun Lessons(
         mutableStateOf(0)
     }
 
-
-
-
-
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .verticalScroll(state)) {
-        Spacer(modifier = Modifier.size(10.dp))
-        //ElemLesson(list[i], onLessonScreen=onLessonScreen)
-       /* while (true){
-            if (i>=list.size){
-                break
+    Column(modifier = Modifier.verticalScroll(state)) {
+        TableLayout(){
+            list.forEach {
+                ElemLesson(i = it)
             }
-            if (i+1>=list.size){
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 30.dp), horizontalArrangement = Arrangement.Center) {
-                    ElemLesson(list[i])
-                    i++
-                }
-                break
-            }
-            if (i%3 != 0){
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 30.dp), horizontalArrangement = Arrangement.SpaceAround) {
-                    ElemLesson(list[i])
-                    i++
-                    ElemLesson(list[i])
-                    i++
-                }
-            }else{
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 30.dp), horizontalArrangement = Arrangement.Center) {
-                    ElemLesson(list[i])
-                    i++
-                }
-            }
-
-        }*/
-        Spacer(modifier = Modifier.size(75.dp))
+        }
+        Spacer(modifier = Modifier.size(110.dp))
     }
+
+
 
 }
 
@@ -94,24 +63,58 @@ fun TableLayout(
         content = content
     ){  measurables, constraints ->
 
-        val placeables = measurables.map { measurable ->
-            // Measure each children
-            measurable.measure(constraints)
-        }
+        var maxHeight = 0
 
-        layout(constraints.maxWidth, constraints.maxHeight) {
-            // Track the y co-ord we have placed children up to
+        var countRow = 0
+        val placeables = measurables.mapIndexed { index, measurable ->
+            // Measure each children
+            val placeable = measurable.measure(constraints)
+
+            if (countRow == 0) {
+                maxHeight += (placeable.height)
+                countRow += 1
+            }else if (countRow == 1){
+                maxHeight += (placeable.height)
+                countRow += 1
+            }else{
+                countRow = 0
+            }
+            placeable
+        }
+        countRow = 0
+
+
+        val height = maxHeight
+            .coerceIn(constraints.minHeight.rangeTo(constraints.maxHeight))
+
+        layout(constraints.maxWidth, maxHeight) {
+
             var yPosition = 0
 
-            // Place children in the parent layout
-            placeables.forEach { placeable ->
-                // Position item on the screen
-                val xPos = (constraints.maxWidth / 2) - (placeable.width / 2)
+            val maxWidth = constraints.maxWidth
+
+            placeables.forEachIndexed { index, placeable ->
+
+
+                var xPos = 0
+                if(countRow == 0){
+                    countRow += 1
+                    xPos = (maxWidth / 2) - (placeable.width / 2)
+                }else if (countRow == 1){
+                    countRow += 1
+                    xPos = 0
+                }else{
+                    countRow = 0
+                    xPos = maxWidth - placeable.width
+                }
+
 
                 placeable.placeRelative(x = xPos, y = yPosition)
 
-                // Record the y co-ord placed up to
-                yPosition += placeable.height
+                if(countRow == 1 || countRow == 0){
+                    yPosition += placeable.height
+                }
+
             }
         }
     }
@@ -121,11 +124,24 @@ fun TableLayout(
 @Preview
 @Composable
 fun PreviewCustomLayout() {
+    val list = List<Int>(10){
+        it + 1
+    }
+    
     MaterialTheme() {
-        TableLayout(){
-            ElemLesson(6)
-            //ElemLesson(7)
+        Scaffold(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())) {
+                TableLayout(){
+                    list.forEach {
+                        ElemLesson(i = it)
+                    }
+                }
+            }
+
         }
+
 
 
     }
@@ -156,7 +172,43 @@ fun ElemLesson(
 ) {
 
     Box(modifier = Modifier
-        .size(120.dp)
+        .size(160.dp)
+        .clickable { },
+        contentAlignment = Alignment.Center){
+
+        Box(modifier = Modifier
+            .size(120.dp)
+            .background(Color.Red, CircleShape),
+            contentAlignment = Alignment.Center){
+            Text(
+                text = i.toString(),
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+                fontSize = 65.sp,
+
+                )
+        }
+
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Transparent)
+            , contentAlignment = Alignment.BottomCenter){
+            Text(text = "testwww",
+                modifier = Modifier
+                    .requiredWidth(70.dp)
+                    .padding(top = 10.dp),
+                textAlign = TextAlign.Center,
+                color = Color(0xFF6782B4),
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+
+
+ /*   Box(modifier = Modifier
+        .size(140.dp)
         .clickable { }
         .background(Gradient.listGradient.random(), CircleShape), contentAlignment = Alignment.Center){
         Text(
@@ -168,16 +220,26 @@ fun ElemLesson(
             fontSize = 65.sp
         )
 
-    }
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .height(160.dp)
+            .background(Color.Transparent)
+            , contentAlignment = Alignment.BottomCenter){
+            Text(text = "testwww",
+                modifier = Modifier
+                    .requiredWidth(70.dp)
+                    .padding(top = 10.dp),
+                textAlign = TextAlign.Center,
+                color = Color(0xFF6782B4),
+                fontWeight = FontWeight.Bold
+            )
+        }
 
-    Text(text = "testwww",
-        modifier = Modifier
-            .requiredWidth(70.dp)
-            .padding(top = 10.dp),
-        textAlign = TextAlign.Center,
-        color = Color(0xFF6782B4),
-        fontWeight = FontWeight.Bold
-    )
+
+
+    }*/
+
+
 
 
   /*  Column(
