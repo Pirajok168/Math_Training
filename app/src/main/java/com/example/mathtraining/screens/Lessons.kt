@@ -1,18 +1,22 @@
 package com.example.mathtraining.screens
 
 import android.util.Log
+import android.widget.TableLayout
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,7 +45,7 @@ fun Lessons(
         .fillMaxWidth()
         .verticalScroll(state)) {
         Spacer(modifier = Modifier.size(10.dp))
-        ElemLesson(list[i], onLessonScreen=onLessonScreen)
+        //ElemLesson(list[i], onLessonScreen=onLessonScreen)
        /* while (true){
             if (i>=list.size){
                 break
@@ -79,6 +83,57 @@ fun Lessons(
 
 }
 
+
+@Composable
+fun TableLayout(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Layout(
+        modifier = modifier,
+        content = content
+    ){  measurables, constraints ->
+
+        val placeables = measurables.map { measurable ->
+            // Measure each children
+            measurable.measure(constraints)
+        }
+
+        layout(constraints.maxWidth, constraints.maxHeight) {
+            // Track the y co-ord we have placed children up to
+            var yPosition = 0
+
+            // Place children in the parent layout
+            placeables.forEach { placeable ->
+                // Position item on the screen
+                val xPos = (constraints.maxWidth / 2) - (placeable.width / 2)
+
+                placeable.placeRelative(x = xPos, y = yPosition)
+
+                // Record the y co-ord placed up to
+                yPosition += placeable.height
+            }
+        }
+    }
+}
+
+
+@Preview
+@Composable
+fun PreviewCustomLayout() {
+    MaterialTheme() {
+        TableLayout(){
+            ElemLesson(6)
+            //ElemLesson(7)
+        }
+
+
+    }
+}
+
+
+
+
 object Gradient{
     val listGradient = mutableListOf(
         Brush.linearGradient(listOf(Color(0xFFF53803),Color(0xFFF5D020))),
@@ -98,12 +153,11 @@ object Gradient{
 @Composable
 fun ElemLesson(
     i: Int,
-    onLessonScreen: () -> Unit
 ) {
 
     Box(modifier = Modifier
         .size(120.dp)
-        .clickable { onLessonScreen() }
+        .clickable { }
         .background(Gradient.listGradient.random(), CircleShape), contentAlignment = Alignment.Center){
         Text(
             text = i.toString(),
