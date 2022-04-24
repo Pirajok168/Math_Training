@@ -1,6 +1,5 @@
 package com.example.mathtraining.screens
 
-import android.graphics.Typeface
 import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -9,10 +8,9 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -24,9 +22,6 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -57,6 +52,9 @@ fun Lesson(
     val stateAnswer = viewModelTwoBit.stateAnswer
     val context = LocalContext.current
 
+    val health = viewModelTwoBit.health
+
+
     when(stateAnswer.value){
         is StateAnswer.Successfully->{
             Toast.makeText(context, "Красава", Toast.LENGTH_SHORT).show()
@@ -69,12 +67,15 @@ fun Lesson(
 
     Scaffold(
         modifier = Modifier,
+        topBar = {
 
+                InfoForLessons(health.value)
+
+        }
     ) {
         Column(modifier = Modifier
-            .padding(10.dp)
             .verticalScroll(scrollState)) {
-            InfoForLessons()
+
             CaseStudy(viewModelTwoBit.firstNum, viewModelTwoBit.secondNum, "plus")
             KeyIMO(
                 onShowIME = {
@@ -107,6 +108,8 @@ fun Lesson(
             CheckAnswer(
                 onDone={
                     viewModelTwoBit.checkAnswerUser()
+                    keyboard?.hide()
+                    focusManager.clearFocus()
                 }
             )
         }
@@ -134,7 +137,7 @@ fun CaseStudy(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 40.dp),
+            .padding(horizontal = 10.dp),
         horizontalAlignment = Alignment.End
     ) {
         Text(
@@ -177,7 +180,8 @@ fun CheckAnswer(
 
     Surface(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp),
         shape = RoundedCornerShape(20.dp),
         color = Color.Black,
         onClick = {
@@ -247,7 +251,6 @@ fun Answer(
                     modifier = Modifier.focusRequester(focusRequest),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
                     ),
                     keyboardActions = KeyboardActions(
                         onNext = {
@@ -303,56 +306,6 @@ fun Answer(
     }
 }
 
-@Composable
-fun Cells(
-    firstNumber: Int,
-    secondNumber: Int
-) {
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .height(200.dp), ){
-        val height = size.height
-        val width = size.width
-
-        val textPaint = Paint().asFrameworkPaint().apply {
-            isAntiAlias = true
-            textSize = 130.sp.toPx()
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-            color = Color.White.hashCode()
-            textAlign = android.graphics.Paint.Align.CENTER
-        }
-
-
-        val elemWidth = size.width / 2f
-
-        drawRoundRect(
-            color = Color.Black,
-            topLeft = Offset(0f, 0f),
-            size = Size(elemWidth-10f, height),
-            cornerRadius = CornerRadius(40f)
-        )
-
-        drawIntoCanvas {
-                canvas ->
-
-
-
-            canvas.nativeCanvas.drawText(
-                firstNumber.toString(),
-                (elemWidth-10f) / 2,
-                height / 2,
-                textPaint,
-            )
-        }
-
-        drawRoundRect(
-            color = Color.Black,
-            topLeft = Offset(elemWidth, 0f),
-            size = Size(elemWidth, height),
-            cornerRadius = CornerRadius(40f)
-        )
-    }
-}
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -363,7 +316,8 @@ fun KeyIMO(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp),
+            .height(80.dp)
+            .padding(horizontal = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -389,28 +343,43 @@ fun KeyIMO(
 
 
 @Composable
-fun InfoForLessons() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Health()
-        HowMuch(10, 10)
+fun InfoForLessons(health: Int) {
 
+    Card(modifier = Modifier.height(100.dp)) {
+        Spacer(modifier = Modifier.size(10.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Health(health)
+            HowMuch(10, 10)
+
+        }
     }
+
+
 }
 
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun Health() {
-    Image(
-        painter = painterResource(id = R.drawable.heart),
-        contentDescription = "",
-        modifier = Modifier
-            .size(80.dp)
-            .padding(end = 20.dp)
-    )
+fun Health(health: Int) {
+
+
+    BadgeBox(badgeContent = { Text(text = health.toString(), fontSize = 14.sp) }) {
+        Icon(
+            imageVector = Icons.Default.Favorite,
+            contentDescription = "",
+            modifier = Modifier
+                .size(80.dp),
+            tint = Color.Red
+        )
+        
+    }
+
+
+
 }
 
 @Composable
