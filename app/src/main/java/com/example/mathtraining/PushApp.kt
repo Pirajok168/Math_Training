@@ -11,6 +11,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.example.mathtraining.database.User
 import com.example.mathtraining.dto.TestRetrofit
+import com.example.mathtraining.repository.CourseRepository
 import com.example.mathtraining.repository.UserRepository
 import com.example.mathtraining.workmanager.CHANNEL_ID
 import dagger.hilt.android.HiltAndroidApp
@@ -28,6 +29,7 @@ class PushApp: Application()  {
     override fun onCreate() {
         super.onCreate()
         UserRepository.initialize(applicationContext)
+        CourseRepository.initialize(applicationContext)
         createNotificationChannel()
 
         /*val uploadWorkRequest: WorkRequest =

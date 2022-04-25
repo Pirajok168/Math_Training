@@ -61,7 +61,7 @@ fun Lesson(
         }
 
         is StateAnswer.Error->{
-            Toast.makeText(context, "Лох ебучий иди нахуй", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Неправильно", Toast.LENGTH_SHORT).show()
         }
     }
 

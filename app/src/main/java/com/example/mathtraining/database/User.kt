@@ -25,6 +25,11 @@ data class User(
 )
 
 
+data class Example(
+        @PrimaryKey val id: Int,
+)
+
+
 data class ActiveUser(
         @Embedded val user: User,
         @Relation(
