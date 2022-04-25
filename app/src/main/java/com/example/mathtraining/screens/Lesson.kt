@@ -100,7 +100,7 @@ fun Lesson(
             Answer(
                 focusRequest,
                 focusManager,
-                onShowIME={
+                onShowIME ={
 
                     focusRequest.requestFocus()
                     if(it == Inputs.Second){
@@ -110,11 +110,10 @@ fun Lesson(
                 },
                 onFirst = {
                     viewModelTwoBit.userInputFirst.value = it
-                },
-                onSecond = {
-                    viewModelTwoBit.userInputSecond.value = it
                 }
-            )
+            ) {
+                viewModelTwoBit.userInputSecond.value = it
+            }
 
             CheckAnswer(
                 onDone={
@@ -221,6 +220,7 @@ fun Answer(
     onFirst: (a: String) -> Unit,
     onSecond: (a: String) -> Unit
 ) {
+
     val firstNumber = remember{
         mutableStateOf("")
     }
@@ -228,6 +228,7 @@ fun Answer(
     val secondNumber = remember{
         mutableStateOf("")
     }
+
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -294,7 +295,7 @@ fun Answer(
                             onSecond(secondNumber.value)
                         }
                         if (it.isEmpty()){
-                            secondNumber.value = ""
+                            secondNumber.value = it
                             onSecond("")
                         }
                     },

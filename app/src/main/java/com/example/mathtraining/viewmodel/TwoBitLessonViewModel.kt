@@ -29,16 +29,20 @@ class TwoBitLessonViewModel(
     var currentAnswer:Int =0
 
 
+
+
     val elemCourse: MutableState<ListLessons?> = mutableStateOf(null)
 
 
 
     fun fetchData(){
+        userInputFirst.value = ""
+        userInputSecond.value = ""
         val listLesson = selectedСourse.value?.listLessons!!
+        passed.value = selectedСourse.value?.passed!!
         elemCourse.value = listLesson[passed.value]
         currentAnswer =  elemCourse.value?.currentAnswer!!
         countElemForLesson.value = listLesson.size
-        passed.value = selectedСourse.value?.passed!!
     }
 
     val stateAnswer: MutableState<StateAnswer> = mutableStateOf(StateAnswer.Check)
