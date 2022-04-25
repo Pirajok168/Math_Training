@@ -1,16 +1,12 @@
 package com.example.mathtraining.screens
 
 import android.util.Log
-import android.widget.TableLayout
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -19,30 +15,36 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mathtraining.database.Course
+import com.example.mathtraining.viewmodel.LessonsViewModel
 import java.util.*
 
 @Composable
 fun Lessons(
     state: ScrollState,
-    onLessonScreen: () -> Unit
+    onLessonScreen: () -> Unit,
+    lessonsViewModel: LessonsViewModel = viewModel()
 ) {
     SideEffect {
         Log.e("test", "Lessons-recompose")
     }
-    val list = List<Int>(10){
-        it + 1
-    }
+    val list by lessonsViewModel.course.observeAsState()
+
     var i by remember {
         mutableStateOf(0)
     }
 
     Column(modifier = Modifier.verticalScroll(state)) {
         TableLayout(){
-            list.forEach {
-                ElemLesson(i = it)
+            list?.listCourse?.forEachIndexed {
+                index, elem ->
+                ElemLesson(i = index, elem =elem, onLessonScreen = {
+                    lessonsViewModel.chooseСourse(it)
+                    onLessonScreen()
+                })
             }
         }
         Spacer(modifier = Modifier.size(110.dp))
@@ -135,7 +137,7 @@ fun PreviewCustomLayout() {
                 .verticalScroll(rememberScrollState())) {
                 TableLayout(){
                     list.forEach {
-                        ElemLesson(i = it)
+                        //ElemLesson(i = it){}
                     }
                 }
             }
@@ -166,111 +168,46 @@ object Gradient{
     )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ElemLesson(
     i: Int,
+    elem: Course,
+    onLessonScreen: ( elem: Course) -> Unit
 ) {
-
-    Box(modifier = Modifier
-        .size(160.dp)
-        .clickable { },
-        contentAlignment = Alignment.Center){
-
-        Box(modifier = Modifier
-            .size(120.dp)
-            .background(Color.Red, CircleShape),
-            contentAlignment = Alignment.Center){
-            Text(
-                text = i.toString(),
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
-                fontSize = 65.sp,
-
+    Column(modifier = Modifier.width(160.dp).padding(10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Surface(
+            modifier = Modifier.size(130.dp),
+            color = Color.Red,
+            shape = CircleShape,
+            onClick = { onLessonScreen(elem) }
+        ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                Text(
+                    text = i.toString(),
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                    fontSize = 65.sp,
                 )
+            }
         }
 
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Transparent)
-            , contentAlignment = Alignment.BottomCenter){
-            Text(text = "testwww",
-                modifier = Modifier
-                    .requiredWidth(70.dp)
-                    .padding(top = 10.dp),
-                textAlign = TextAlign.Center,
-                color = Color(0xFF6782B4),
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
-
-
- /*   Box(modifier = Modifier
-        .size(140.dp)
-        .clickable { }
-        .background(Gradient.listGradient.random(), CircleShape), contentAlignment = Alignment.Center){
-        Text(
-            text = i.toString(),
-            color = Color.White,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-            fontSize = 65.sp
-        )
-
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .height(160.dp)
-            .background(Color.Transparent)
-            , contentAlignment = Alignment.BottomCenter){
-            Text(text = "testwww",
-                modifier = Modifier
-                    .requiredWidth(70.dp)
-                    .padding(top = 10.dp),
-                textAlign = TextAlign.Center,
-                color = Color(0xFF6782B4),
-                fontWeight = FontWeight.Bold
-            )
-        }
-
-
-
-    }*/
-
-
-
-
-  /*  Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(modifier = Modifier
-            .size(120.dp)
-            .clickable {  }
-            .background(Gradient.listGradient.random(), CircleShape), contentAlignment = Alignment.Center){
-            Text(
-                text = i.toString(),
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
-                fontSize = 65.sp
-            )
-
-        }
-
-        Text(text = "testwww",
+        Text(text = elem.nameLesson,
             modifier = Modifier
-                .requiredWidth(70.dp)
+                .fillMaxWidth()
                 .padding(top = 10.dp),
             textAlign = TextAlign.Center,
             color = Color(0xFF6782B4),
             fontWeight = FontWeight.Bold
         )
-    }*/
-    
+    }
+
+
+
+
+
 
 
 }
