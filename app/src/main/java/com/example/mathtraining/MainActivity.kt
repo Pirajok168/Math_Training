@@ -162,6 +162,7 @@ fun ScreenNavigation(
     onChooseLocale: (locale: LocaleApp) -> Unit,
     onChooseNightMode: (isNightMode: Boolean) -> Unit,
     onEnableNotification: (enable: Boolean) -> Unit,
+
 ) {
     val navHostController = rememberNavController()
 
@@ -190,7 +191,16 @@ fun ScreenNavigation(
             navHostController.navigate(Screens.LessonScreen.route){
                 launchSingleTop = true
             }
-        }
+        },
+        onEnd = {
+
+        },
+        onContinue = {
+
+        },
+        onResultScreen = {
+
+        },
 
     )
 

@@ -24,28 +24,28 @@ object SampleData{
         Course(
             listLessons = listOf(
                 ListLessons(
-                    first = "23",
-                    second = "43",
+                    first = 23,
+                    second = 43,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "47",
+                    first = 12,
+                    second = 47,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "20",
+                    first = 10,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "20",
+                    first = 12,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "23",
+                    first = 10,
+                    second = 23,
                     operator = "plus",
                 )
 
@@ -56,28 +56,28 @@ object SampleData{
         Course(
             listLessons = listOf(
                 ListLessons(
-                    first = "15",
-                    second = "14",
+                    first = 23,
+                    second = 43,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "47",
+                    first = 12,
+                    second = 47,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "20",
+                    first = 10,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "20",
+                    first = 12,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "23",
+                    first = 10,
+                    second = 23,
                     operator = "plus",
                 )
 
@@ -88,28 +88,28 @@ object SampleData{
         Course(
             listLessons = listOf(
                 ListLessons(
-                    first = "23",
-                    second = "43",
+                    first = 23,
+                    second = 43,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "47",
+                    first = 12,
+                    second = 47,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "20",
+                    first = 10,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "20",
+                    first = 12,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "23",
+                    first = 10,
+                    second = 23,
                     operator = "plus",
                 )
 
@@ -120,28 +120,28 @@ object SampleData{
         Course(
             listLessons = listOf(
                 ListLessons(
-                    first = "23",
-                    second = "43",
+                    first = 23,
+                    second = 43,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "47",
+                    first = 12,
+                    second = 47,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "20",
+                    first = 10,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "20",
+                    first = 12,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "23",
+                    first = 10,
+                    second = 23,
                     operator = "plus",
                 )
 
@@ -152,28 +152,28 @@ object SampleData{
         Course(
             listLessons = listOf(
                 ListLessons(
-                    first = "23",
-                    second = "43",
+                    first = 23,
+                    second = 43,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "47",
+                    first = 12,
+                    second = 47,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "20",
+                    first = 10,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "20",
+                    first = 12,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "23",
+                    first = 10,
+                    second = 23,
                     operator = "plus",
                 )
 
@@ -184,28 +184,28 @@ object SampleData{
         Course(
             listLessons = listOf(
                 ListLessons(
-                    first = "23",
-                    second = "43",
+                    first = 23,
+                    second = 43,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "47",
+                    first = 12,
+                    second = 47,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "20",
+                    first = 10,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "20",
+                    first = 12,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "23",
+                    first = 10,
+                    second = 23,
                     operator = "plus",
                 )
 
@@ -216,92 +216,28 @@ object SampleData{
         Course(
             listLessons = listOf(
                 ListLessons(
-                    first = "23",
-                    second = "43",
+                    first = 23,
+                    second = 43,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "47",
+                    first = 12,
+                    second = 47,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "20",
+                    first = 10,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "12",
-                    second = "20",
+                    first = 12,
+                    second = 20,
                     operator = "plus",
                 ),
                 ListLessons(
-                    first = "10",
-                    second = "23",
-                    operator = "plus",
-                )
-
-            ),
-
-            nameLesson = "Двоичное вычесление"
-        ),
-        Course(
-            listLessons = listOf(
-                ListLessons(
-                    first = "23",
-                    second = "43",
-                    operator = "plus",
-                ),
-                ListLessons(
-                    first = "12",
-                    second = "47",
-                    operator = "plus",
-                ),
-                ListLessons(
-                    first = "10",
-                    second = "20",
-                    operator = "plus",
-                ),
-                ListLessons(
-                    first = "12",
-                    second = "20",
-                    operator = "plus",
-                ),
-                ListLessons(
-                    first = "10",
-                    second = "23",
-                    operator = "plus",
-                )
-
-            ),
-
-            nameLesson = "Двоичное вычесление"
-        ),
-        Course(
-            listLessons = listOf(
-                ListLessons(
-                    first = "23",
-                    second = "43",
-                    operator = "plus",
-                ),
-                ListLessons(
-                    first = "12",
-                    second = "47",
-                    operator = "plus",
-                ),
-                ListLessons(
-                    first = "10",
-                    second = "20",
-                    operator = "plus",
-                ),
-                ListLessons(
-                    first = "12",
-                    second = "20",
-                    operator = "plus",
-                ),
-                ListLessons(
-                    first = "10",
-                    second = "23",
+                    first = 10,
+                    second = 23,
                     operator = "plus",
                 )
 

@@ -11,7 +11,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -30,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -41,9 +39,12 @@ import com.example.mathtraining.viewmodel.TwoBitLessonViewModel
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Lesson(
-    viewModelTwoBit: TwoBitLessonViewModel = viewModel()
+    viewModelTwoBit: TwoBitLessonViewModel = viewModel(),
+    onResultScreen: () -> Unit
 ) {
-    val course by viewModelTwoBit.selectedСourse.observeAsState()
+    viewModelTwoBit.fetchData()
+
+    val course = viewModelTwoBit.elemCourse
 
     val keyboard = LocalSoftwareKeyboardController.current
     val focusRequest = FocusRequester.Default
@@ -58,8 +59,9 @@ fun Lesson(
     val health = viewModelTwoBit.health
 
 
-    when(stateAnswer.value){
+    when(val state = stateAnswer.value){
         is StateAnswer.Successfully->{
+            viewModelTwoBit.fetchData()
             Toast.makeText(context, "Красава", Toast.LENGTH_SHORT).show()
         }
 
@@ -71,16 +73,21 @@ fun Lesson(
     Scaffold(
         modifier = Modifier,
         topBar = {
-
-                InfoForLessons(health.value)
-
+            InfoForLessons(
+                health.value,
+                viewModelTwoBit.countElemForLesson.value,
+                viewModelTwoBit.passed.value
+            )
         }
     ) {
         Column(modifier = Modifier
             .verticalScroll(scrollState)) {
 
-            CaseStudy(course?.listLessons?.first()?.first?.toInt() ?: 0,
-                course?.listLessons?.first()?.second?.toInt() ?: 0, course?.listLessons?.first()?.operator ?: "plus")
+            CaseStudy(
+                course.value?.first!!,
+                course.value?.second!!,
+                course.value?.operator!!
+            )
             KeyIMO(
                 onShowIME = {
 
@@ -347,7 +354,7 @@ fun KeyIMO(
 
 
 @Composable
-fun InfoForLessons(health: Int) {
+fun InfoForLessons(health: Int, countElemForLesson: Int, passed: Int) {
 
     Card(modifier = Modifier.height(100.dp)) {
         Spacer(modifier = Modifier.size(10.dp))
@@ -359,14 +366,11 @@ fun InfoForLessons(health: Int) {
 
             Health(health)
 
-
-
-
             Box(modifier = Modifier
                 .fillMaxWidth()
                 .weight(5f)
                 .padding(start = 20.dp)){
-                HowMuch(10, 10)
+                HowMuch(passed, countElemForLesson)
             }
 
 
@@ -410,13 +414,7 @@ fun Health(health: Int) {
 
 }
 
-@Preview
-@Composable
-fun LessPrev() {
-    MaterialTheme() {
-        InfoForLessons(10)
-    }
-}
+
 
 @Composable
 fun HowMuch(
@@ -440,10 +438,18 @@ fun HowMuch(
         var x = 0f
         var y = 0f
 
-        for (i in 0 until passed){
+        for (i in 0 until max){
+
+
+
+            val color =if (i in 0..passed){
+                Color.Black
+            }else{
+                Color.LightGray
+            }
 
             drawRoundRect(
-                color = Color.Black,
+                color = color,
                 topLeft = Offset(x = x, y = y),
                 size = Size(width = size, height = height),
                 cornerRadius = CornerRadius(25f)

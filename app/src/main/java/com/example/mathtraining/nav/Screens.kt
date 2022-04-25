@@ -26,4 +26,5 @@ sealed class Screens(val route: String,  val label: LabelScreens?, @DrawableRes 
     object SplashScreen: Screens("splashScreen", null, null)
 
     object LessonScreen: Screens("lesson_screen", null, null,)
+    object ResultScreen: Screens("result_screen", null, null)
 }

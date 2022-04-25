@@ -19,11 +19,20 @@ fun SetupNavGraph(
     onChooseNightMode: (isNightMode: Boolean) -> Unit,
     onEnableNotification: (enable: Boolean) -> Unit,
     onLessonScreen: () -> Unit,
-    onSettingScreen: () -> Unit
+    onSettingScreen: () -> Unit,
+    onContinue: () -> Unit,
+    onEnd: () -> Unit,
+    onResultScreen: () -> Unit,
+
 ){
     NavHost(navController = navController, startDestination = AUTH_GRAPH_ROUTE, route = ROOT_GRAPH_ROUTE ){
         authGraph(navController = navController, onNavigation)
-        lessonGraph(navController = navController)
+        lessonGraph(
+            navController = navController,
+            onContinue = onContinue,
+            onEnd = onEnd,
+            onResultScreen = onResultScreen
+        )
 
         composable(Screens.CreateAccount.route){
             CreateAccount(onNavigation)
