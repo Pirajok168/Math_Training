@@ -41,7 +41,10 @@ fun Lessons(
         TableLayout(){
             list?.listCourse?.forEachIndexed {
                 index, elem ->
-                ElemLesson(i = index, elem =elem, onLessonScreen =onLessonScreen)
+                ElemLesson(i = index, elem =elem, onLessonScreen = {
+                    lessonsViewModel.chooseСourse(it)
+                    onLessonScreen()
+                })
             }
         }
         Spacer(modifier = Modifier.size(110.dp))
@@ -170,14 +173,14 @@ object Gradient{
 fun ElemLesson(
     i: Int,
     elem: Course,
-    onLessonScreen: () -> Unit
+    onLessonScreen: ( elem: Course) -> Unit
 ) {
     Column(modifier = Modifier.width(160.dp).padding(10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Surface(
             modifier = Modifier.size(130.dp),
             color = Color.Red,
             shape = CircleShape,
-            onClick = { onLessonScreen() }
+            onClick = { onLessonScreen(elem) }
         ) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
                 Text(

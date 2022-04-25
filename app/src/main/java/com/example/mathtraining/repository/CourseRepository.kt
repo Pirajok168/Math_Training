@@ -10,17 +10,12 @@ import kotlinx.coroutines.launch
 import java.io.InputStream
 
 
-object CourseData{
-    val listCourse = listOf<TestCourse>(
 
-
-    )
-}
 
 class CourseRepository private constructor(context: Context) {
 
     val course  = GeneralCourse.course
-
+    val _selectedСourse: MutableLiveData<Course> = MutableLiveData()
     init {
         GeneralCourse.changeCourse(SelectedCourse.ElementaryCourse)
     }

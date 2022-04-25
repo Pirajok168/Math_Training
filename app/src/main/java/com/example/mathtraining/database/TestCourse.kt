@@ -22,48 +22,294 @@ interface RoadSoFar{
 object SampleData{
     val listCourse = listOf<Course>(
         Course(
-            first = "23",
-            second = "43",
-            operator = "plus",
-            nameLesson = "Двоичное вычесление"
-        ),
-        Course(
-            first = "12",
-            second = "47",
-            operator = "plus",
-            nameLesson = "Двоичное вычесление"
+            listLessons = listOf(
+                ListLessons(
+                    first = "23",
+                    second = "43",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "47",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "23",
+                    operator = "plus",
+                )
 
-        ),
-        Course(
-            first = "10",
-            second = "20",
-            operator = "plus",
+            ),
+
             nameLesson = "Двоичное вычесление"
         ),
         Course(
-            first = "15",
-            second = "13",
-            operator = "plus",
+            listLessons = listOf(
+                ListLessons(
+                    first = "15",
+                    second = "14",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "47",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "23",
+                    operator = "plus",
+                )
+
+            ),
+
             nameLesson = "Двоичное вычесление"
         ),
         Course(
-            first = "57",
-            second = "13",
-            operator = "plus",
+            listLessons = listOf(
+                ListLessons(
+                    first = "23",
+                    second = "43",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "47",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "23",
+                    operator = "plus",
+                )
+
+            ),
+
             nameLesson = "Двоичное вычесление"
         ),
         Course(
-            first = "37",
-            second = "19",
-            operator = "plus",
+            listLessons = listOf(
+                ListLessons(
+                    first = "23",
+                    second = "43",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "47",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "23",
+                    operator = "plus",
+                )
+
+            ),
+
             nameLesson = "Двоичное вычесление"
         ),
         Course(
-            first = "11",
-            second = "11",
-            operator = "plus",
+            listLessons = listOf(
+                ListLessons(
+                    first = "23",
+                    second = "43",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "47",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "23",
+                    operator = "plus",
+                )
+
+            ),
+
             nameLesson = "Двоичное вычесление"
-        )
+        ),
+        Course(
+            listLessons = listOf(
+                ListLessons(
+                    first = "23",
+                    second = "43",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "47",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "23",
+                    operator = "plus",
+                )
+
+            ),
+
+            nameLesson = "Двоичное вычесление"
+        ),
+        Course(
+            listLessons = listOf(
+                ListLessons(
+                    first = "23",
+                    second = "43",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "47",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "23",
+                    operator = "plus",
+                )
+
+            ),
+
+            nameLesson = "Двоичное вычесление"
+        ),
+        Course(
+            listLessons = listOf(
+                ListLessons(
+                    first = "23",
+                    second = "43",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "47",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "23",
+                    operator = "plus",
+                )
+
+            ),
+
+            nameLesson = "Двоичное вычесление"
+        ),
+        Course(
+            listLessons = listOf(
+                ListLessons(
+                    first = "23",
+                    second = "43",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "47",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "12",
+                    second = "20",
+                    operator = "plus",
+                ),
+                ListLessons(
+                    first = "10",
+                    second = "23",
+                    operator = "plus",
+                )
+
+            ),
+
+            nameLesson = "Двоичное вычесление"
+        ),
+
     )
 }
 

@@ -2,7 +2,10 @@ package com.example.mathtraining.viewmodel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.mathtraining.database.Course
+import com.example.mathtraining.repository.CourseRepository
 
 
 sealed class StateAnswer{
@@ -11,11 +14,16 @@ sealed class StateAnswer{
     object Check: StateAnswer()
 }
 
-class TwoBitLessonViewModel: ViewModel() {
+class TwoBitLessonViewModel(
+    private val courseRepository: CourseRepository =  CourseRepository.get()
+): ViewModel() {
+    val selectedСourse: MutableLiveData<Course> = courseRepository._selectedСourse
+
     val firstNum = 38
     val secondNum = 21
     val userInputFirst: MutableState<String> = mutableStateOf("")
     val userInputSecond: MutableState<String> = mutableStateOf("")
+
 
     private val currentAnswer = firstNum+secondNum
     val stateAnswer: MutableState<StateAnswer> = mutableStateOf(StateAnswer.Check)

@@ -11,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -42,6 +43,8 @@ import com.example.mathtraining.viewmodel.TwoBitLessonViewModel
 fun Lesson(
     viewModelTwoBit: TwoBitLessonViewModel = viewModel()
 ) {
+    val course by viewModelTwoBit.selectedСourse.observeAsState()
+
     val keyboard = LocalSoftwareKeyboardController.current
     val focusRequest = FocusRequester.Default
     val focusManager = LocalFocusManager.current
@@ -76,7 +79,8 @@ fun Lesson(
         Column(modifier = Modifier
             .verticalScroll(scrollState)) {
 
-            CaseStudy(viewModelTwoBit.firstNum, viewModelTwoBit.secondNum, "plus")
+            CaseStudy(course?.listLessons?.first()?.first?.toInt() ?: 0,
+                course?.listLessons?.first()?.second?.toInt() ?: 0, course?.listLessons?.first()?.operator ?: "plus")
             KeyIMO(
                 onShowIME = {
 
