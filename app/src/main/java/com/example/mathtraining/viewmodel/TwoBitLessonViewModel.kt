@@ -36,6 +36,7 @@ class TwoBitLessonViewModel(
 
 
     fun fetchData(){
+        stateAnswer.value = StateAnswer.Check
         userInputFirst.value = ""
         userInputSecond.value = ""
         val listLesson = selectedСourse.value?.listLessons!!
@@ -50,19 +51,22 @@ class TwoBitLessonViewModel(
     val health: MutableState<Int> = mutableStateOf(5)
 
     fun checkAnswerUser(){
-        stateAnswer.value = StateAnswer.Check
+
         try {
             if ("${userInputFirst.value}${userInputSecond.value}".toInt()==currentAnswer){
                 stateAnswer.value = StateAnswer.Successfully("Успешно")
                 selectedСourse.value?.passed = passed.value + 1
             }else{
                 health.value = health.value - 1
+                selectedСourse.value?.passed = passed.value + 1
                 stateAnswer.value = StateAnswer.Error("Ошибка")
             }
         }catch (e: Exception){
             health.value = health.value - 1
+            selectedСourse.value?.passed = passed.value + 1
             stateAnswer.value = StateAnswer.Error("Ошибка")
         }
+
 
     }
 }

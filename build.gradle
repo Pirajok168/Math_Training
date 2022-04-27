@@ -1,7 +1,7 @@
 buildscript {
     ext {
         compose_version = '1.0.1'
-        roomVersion = '2.3.0'
+        roomVersion = '2.4.0-alpha03'
         core_version = "1.6.0"
         
     }
