@@ -56,7 +56,7 @@ class AuthViewModel: ViewModel() {
             Log.e("obj", "гей")
             viewModelScope.launch(Dispatchers.IO) {
                 userRepository.insertNewValueStatistic(
-                    Statistic(Random().nextInt(), idUser, date, 8f)
+                    Statistic(Random().nextInt(), idUser, date, 0f)
                 )
             }
         }

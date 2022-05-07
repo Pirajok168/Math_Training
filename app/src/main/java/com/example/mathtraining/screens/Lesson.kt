@@ -2,6 +2,9 @@ package com.example.mathtraining.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -26,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -35,14 +39,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mathtraining.R
 import com.example.mathtraining.viewmodel.StateAnswer
 import com.example.mathtraining.viewmodel.TwoBitLessonViewModel
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun Lesson(
     viewModelTwoBit: TwoBitLessonViewModel = viewModel(),
     onResultScreen: () -> Unit
 ) {
-    viewModelTwoBit.fetchData()
+    LaunchedEffect(key1 = 0, block = {
+        viewModelTwoBit.fetchData()
+    })
+
 
     val course = viewModelTwoBit.elemCourse
 
@@ -59,73 +67,150 @@ fun Lesson(
     val health = viewModelTwoBit.health
 
 
+
+    val textResult = remember {
+        mutableStateOf(" ")
+    }
+
+    val colorResult = remember {
+        mutableStateOf(Color.Black)
+    }
+
+    val drawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
+    val lastElem = viewModelTwoBit.lastElem
+
     when(val state = stateAnswer.value){
         is StateAnswer.Successfully->{
-            viewModelTwoBit.fetchData()
-            Toast.makeText(context, "Красава", Toast.LENGTH_SHORT).show()
+            scope.launch {
+                drawerState.open()
+            }
+            textResult.value = "Правильно"
+            colorResult.value = Color.Green
         }
 
         is StateAnswer.Error->{
-            Toast.makeText(context, "Неправильно", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    Scaffold(
-        modifier = Modifier,
-        topBar = {
-            InfoForLessons(
-                health.value,
-                viewModelTwoBit.countElemForLesson.value,
-                viewModelTwoBit.passed.value
-            )
-        }
-    ) {
-        Column(modifier = Modifier
-            .verticalScroll(scrollState)) {
-
-            CaseStudy(
-                course.value?.first!!,
-                course.value?.second!!,
-                course.value?.operator!!
-            )
-            KeyIMO(
-                onShowIME = {
-
-
-                    focusRequest.requestFocus()
-                    keyboard?.show()
-
-                }
-            )
-            Answer(
-                focusRequest,
-                focusManager,
-                onShowIME ={
-
-                    focusRequest.requestFocus()
-                    if(it == Inputs.Second){
-                        focusManager.moveFocus(FocusDirection.Next)
-                    }
-                    keyboard?.show()
-                },
-                onFirst = {
-                    viewModelTwoBit.userInputFirst.value = it
-                }
-            ) {
-                viewModelTwoBit.userInputSecond.value = it
+            scope.launch {
+                drawerState.open()
             }
-
-            CheckAnswer(
-                onDone={
-                    viewModelTwoBit.checkAnswerUser()
-                    keyboard?.hide()
-                    focusManager.clearFocus()
-                }
-            )
+            textResult.value = "Неправильно"
+            colorResult.value = Color.Red
+        }
+        is StateAnswer.Check->{
+            textResult.value = "Проверить"
+            colorResult.value = Color.Black
         }
     }
+
+
+    BottomDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ResultContent(
+                textResult.value,
+                onNext = {
+                    if (lastElem.value){
+
+                    }else{
+                        viewModelTwoBit.fetchData()
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    }
+                }
+            )
+        },
+        drawerBackgroundColor = colorResult.value,
+        gesturesEnabled = false,
+
+    ) {
+        Scaffold(
+            modifier = Modifier,
+            topBar = {
+                InfoForLessons(
+                    health.value,
+                    viewModelTwoBit.countElemForLesson.value,
+                    viewModelTwoBit.passed.value
+                )
+            }
+        ) {
+            Column(modifier = Modifier
+                .verticalScroll(scrollState)) {
+
+                CaseStudy(
+                    course.value?.first ?: 0,
+                    course.value?.second ?: 0,
+                    course.value?.operator ?: "plus"
+                )
+                KeyIMO(
+                    onShowIME = {
+
+
+                        focusRequest.requestFocus()
+                        keyboard?.show()
+
+                    }
+                )
+                Answer(
+                    viewModelTwoBit.userInputFirst,
+                    viewModelTwoBit.userInputSecond,
+                    focusRequest,
+                    focusManager,
+                    onShowIME ={
+
+                        focusRequest.requestFocus()
+                        if(it == Inputs.Second){
+                            focusManager.moveFocus(FocusDirection.Next)
+                        }
+                        keyboard?.show()
+                    },
+                    onFirst = {
+                        viewModelTwoBit.userInputFirst.value = it
+                    }
+                ) {
+                    viewModelTwoBit.userInputSecond.value = it
+                }
+
+                CheckAnswer(
+                    onDone={
+                        viewModelTwoBit.checkAnswerUser()
+                        keyboard?.hide()
+                        focusManager.clearFocus()
+                    },
+                )
+            }
+        }
+    }
+    /* */
 }
 
+
+@Composable
+fun ResultContent(
+    text: String,
+    onNext: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(20.dp),
+        horizontalAlignment = Alignment.Start
+    ){
+        Text(
+            text = text,
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold, 
+            color = Color.White
+        )
+        Spacer(modifier = Modifier.size(10.dp))
+        Button(
+            onClick = { onNext() },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Продолжить")
+        }
+
+    }
+}
 @Composable
 fun CaseStudy(
     firstNumber: Int,
@@ -184,6 +269,8 @@ fun CaseStudy(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CheckAnswer(
+    color: Color = Color.Black,
+    text: String = "Проверить",
     onDone: () -> Unit
 ) {
     Spacer(modifier = Modifier.size(20.dp))
@@ -193,15 +280,16 @@ fun CheckAnswer(
             .fillMaxWidth()
             .padding(horizontal = 10.dp),
         shape = RoundedCornerShape(20.dp),
-        color = Color.Black,
+        color = color,
         onClick = {
             onDone()
         }
     ) {
         Box(modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp), contentAlignment = Alignment.Center){
-            Text(text = "DONE", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 40.sp)
+            .padding(10.dp),
+            contentAlignment = Alignment.Center){
+            Text(text = text.uppercase(), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 40.sp)
         }
     }
 }
@@ -214,6 +302,8 @@ enum class Inputs{
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Answer(
+    firstNumber: MutableState<String>,
+    secondNumber: MutableState<String>,
     focusRequest: FocusRequester,
     focusManager: FocusManager,
     onShowIME: (inputs: Inputs) -> Unit,
@@ -221,13 +311,13 @@ fun Answer(
     onSecond: (a: String) -> Unit
 ) {
 
-    val firstNumber = remember{
+   /* val firstNumber = remember{
         mutableStateOf("")
     }
 
     val secondNumber = remember{
         mutableStateOf("")
-    }
+    }*/
 
 
     Row(
@@ -244,7 +334,11 @@ fun Answer(
                 onShowIME(Inputs.First)
             }
         ) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center ){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
 
                 BasicTextField(
                     value = firstNumber.value,
@@ -253,6 +347,7 @@ fun Answer(
                         if (firstNumber.value.isEmpty()){
                             firstNumber.value = it
                             onFirst(firstNumber.value)
+                            focusManager.moveFocus(FocusDirection.Next)
                         }
                         if (it.isEmpty()){
                             firstNumber.value = ""
@@ -296,6 +391,7 @@ fun Answer(
                         }
                         if (it.isEmpty()){
                             secondNumber.value = it
+                            focusManager.moveFocus(FocusDirection.Left)
                             onSecond("")
                         }
                     },

@@ -11,7 +11,7 @@ data class Statistic(
         @PrimaryKey val idStatistic: Int,
         val userOwnerId: Int,
         val day: Date,
-        val statTrack: Float,
+        var statTrack: Float,
 )
 
 
