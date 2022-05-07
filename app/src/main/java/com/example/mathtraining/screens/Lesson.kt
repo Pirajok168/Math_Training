@@ -2,6 +2,9 @@ package com.example.mathtraining.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -74,6 +77,8 @@ fun Lesson(
     }
 
     val drawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
+    val lastElem = viewModelTwoBit.lastElem
+
     when(val state = stateAnswer.value){
         is StateAnswer.Successfully->{
             scope.launch {
@@ -103,9 +108,13 @@ fun Lesson(
             ResultContent(
                 textResult.value,
                 onNext = {
-                    viewModelTwoBit.fetchData()
-                    scope.launch {
-                        drawerState.close()
+                    if (lastElem.value){
+
+                    }else{
+                        viewModelTwoBit.fetchData()
+                        scope.launch {
+                            drawerState.close()
+                        }
                     }
                 }
             )
@@ -142,6 +151,8 @@ fun Lesson(
                     }
                 )
                 Answer(
+                    viewModelTwoBit.userInputFirst,
+                    viewModelTwoBit.userInputSecond,
                     focusRequest,
                     focusManager,
                     onShowIME ={
@@ -291,6 +302,8 @@ enum class Inputs{
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Answer(
+    firstNumber: MutableState<String>,
+    secondNumber: MutableState<String>,
     focusRequest: FocusRequester,
     focusManager: FocusManager,
     onShowIME: (inputs: Inputs) -> Unit,
@@ -298,13 +311,13 @@ fun Answer(
     onSecond: (a: String) -> Unit
 ) {
 
-    val firstNumber = remember{
+   /* val firstNumber = remember{
         mutableStateOf("")
     }
 
     val secondNumber = remember{
         mutableStateOf("")
-    }
+    }*/
 
 
     Row(
@@ -321,7 +334,11 @@ fun Answer(
                 onShowIME(Inputs.First)
             }
         ) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center ){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
 
                 BasicTextField(
                     value = firstNumber.value,
@@ -330,6 +347,7 @@ fun Answer(
                         if (firstNumber.value.isEmpty()){
                             firstNumber.value = it
                             onFirst(firstNumber.value)
+                            focusManager.moveFocus(FocusDirection.Next)
                         }
                         if (it.isEmpty()){
                             firstNumber.value = ""
@@ -373,6 +391,7 @@ fun Answer(
                         }
                         if (it.isEmpty()){
                             secondNumber.value = it
+                            focusManager.moveFocus(FocusDirection.Left)
                             onSecond("")
                         }
                     },

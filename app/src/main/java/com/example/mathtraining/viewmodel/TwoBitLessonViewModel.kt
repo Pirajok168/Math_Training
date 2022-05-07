@@ -4,9 +4,13 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.mathtraining.database.Course
 import com.example.mathtraining.database.ListLessons
 import com.example.mathtraining.repository.CourseRepository
+import com.example.mathtraining.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 sealed class StateAnswer{
@@ -16,9 +20,11 @@ sealed class StateAnswer{
 }
 
 class TwoBitLessonViewModel(
-    private val courseRepository: CourseRepository =  CourseRepository.get()
+    private val courseRepository: CourseRepository =  CourseRepository.get(),
+    private val userRepository: UserRepository = UserRepository.get()
 ): ViewModel() {
     val selectedСourse: MutableLiveData<Course> = courseRepository._selectedСourse
+    private val activeUser = userRepository.activeUser
 
     var countElemForLesson: MutableState<Int> = mutableStateOf(0)
     var passed: MutableState<Int> = mutableStateOf(0)
@@ -33,7 +39,7 @@ class TwoBitLessonViewModel(
 
     val elemCourse: MutableState<ListLessons?> = mutableStateOf(null)
 
-
+    val lastElem: MutableState<Boolean> = mutableStateOf(false)
 
     fun fetchData(){
         stateAnswer.value = StateAnswer.Check
@@ -44,6 +50,7 @@ class TwoBitLessonViewModel(
         elemCourse.value = listLesson[passed.value]
         currentAnswer =  elemCourse.value?.currentAnswer!!
         countElemForLesson.value = listLesson.size
+        lastElem.value = passed.value + 1  == listLesson.size
     }
 
     val stateAnswer: MutableState<StateAnswer> = mutableStateOf(StateAnswer.Check)
@@ -54,6 +61,10 @@ class TwoBitLessonViewModel(
 
         try {
             if ("${userInputFirst.value}${userInputSecond.value}".toInt()==currentAnswer){
+                viewModelScope.launch(Dispatchers.IO) {
+                    val listStat = activeUser.value?.listStatistic
+                    userRepository.addStatTrackStar(listStat?.last()!!)
+                }
                 stateAnswer.value = StateAnswer.Successfully("Успешно")
                 selectedСourse.value?.passed = passed.value + 1
             }else{

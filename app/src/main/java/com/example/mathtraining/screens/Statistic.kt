@@ -225,7 +225,7 @@ fun  Graph(
 
 
                 canvas.nativeCanvas.drawText(
-                     format.format(it.day),
+                     format.format(it.day) + " " + it.statTrack,
                     x-40,
                     canvasHeight,
                      textPaint
