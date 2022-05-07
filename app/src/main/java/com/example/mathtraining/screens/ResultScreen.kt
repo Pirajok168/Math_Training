@@ -1,5 +1,6 @@
 package com.example.mathtraining.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -15,5 +16,9 @@ fun ResultScreen(
         Button(onClick = { onContinue() }) {
             Text(text = "Next")
         }
+    }
+
+    BackHandler(true) {
+        onContinue()
     }
 }

@@ -8,7 +8,8 @@ import com.google.gson.annotations.SerializedName
 data class Course(
     val nameLesson: String,
     val listLessons: List<ListLessons>,
-    var passed: Int = 0
+    var passed: Int = 0,
+    var complete: Boolean = false
 )
 
 data class ListLessons(

@@ -1,6 +1,7 @@
 package com.example.mathtraining.screens
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.rememberScrollableState
@@ -180,6 +181,10 @@ fun Lesson(
                 )
             }
         }
+    }   
+    
+    BackHandler(true) {
+        Toast.makeText(context, "Вы уверены, что хотите выйти?", Toast.LENGTH_SHORT).show()
     }
 
 }

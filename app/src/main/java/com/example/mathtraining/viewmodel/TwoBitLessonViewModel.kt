@@ -59,6 +59,7 @@ class TwoBitLessonViewModel(
 
 
     fun complete(){
+        selectedСourse.value?.complete = true
         viewModelScope.launch(Dispatchers.IO) {
             val listStat = activeUser.value?.listStatistic
             userRepository.addStatTrackStar(listStat?.last()!!)

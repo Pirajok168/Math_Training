@@ -180,7 +180,10 @@ fun ElemLesson(
             modifier = Modifier.size(130.dp),
             color = Color.Red,
             shape = CircleShape,
-            onClick = { onLessonScreen(elem) }
+            onClick = {
+                if(!elem.complete)
+                    onLessonScreen(elem)
+            }
         ) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
                 Text(
@@ -203,9 +206,6 @@ fun ElemLesson(
             fontWeight = FontWeight.Bold
         )
     }
-
-
-
 
 
 
