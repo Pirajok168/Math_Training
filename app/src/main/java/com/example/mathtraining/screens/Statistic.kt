@@ -193,19 +193,25 @@ fun  Graph(
         var y = canvasHeight
 
 
-        var borderX = 0f
-        var borderY = 0f
 
+        drawLine(
+            color = Color.Black,
+            start = Offset(20f,0f),
+            end = Offset(20f, canvasHeight - 30f),
+            strokeWidth = 3f
+        )
+        drawLine(
+            color = Color.Black,
+            start = Offset(20f,canvasHeight - 30f),
+            end = Offset(canvasWidth, canvasHeight - 30f),
+            strokeWidth = 3f
+        )
 
         val textPaint = Paint().asFrameworkPaint().apply {
             isAntiAlias = true
             textSize = 12.sp.toPx()
         }
 
-
-        /*drawIntoCanvas {
-            it.nativeCanvas.drawText()
-        }*/
 
         data.forEach {
             var endX = (size.height * it.statTrack) / max
@@ -215,17 +221,34 @@ fun  Graph(
                 color = color,
                 cornerRadius = CornerRadius(10f),
                 topLeft = Offset(x, endX),
-                size = Size(30f, canvasHeight-endX-40)
+                size = Size(30f, canvasHeight-endX - 45f)
             )
+
+
+            drawLine(
+                color = Color.Black,
+                start = Offset(30f, endX),
+                end = Offset(x, endX),
+                strokeWidth = 3f,
+                pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
+            )
+
+            drawIntoCanvas {
+                    canvas ->
+                canvas.nativeCanvas.drawText(
+                    it.statTrack.toInt().toString(),
+                    30f,
+                    endX+40f,
+                    textPaint
+                )
+            }
 
 
             drawIntoCanvas {
                     canvas ->
 
-
-
                 canvas.nativeCanvas.drawText(
-                     format.format(it.day) + " " + it.statTrack,
+                     format.format(it.day),
                     x-40,
                     canvasHeight,
                      textPaint
@@ -233,14 +256,6 @@ fun  Graph(
             }
 
 
-            /* drawLine(
-                color = borderColor,
-                start = Offset(borderX, borderY),
-                end = Offset(canvasWidth, borderY),
-                strokeWidth = 5f,
-            )
-
-            borderY += padding*/
             x += padding
         }
 
