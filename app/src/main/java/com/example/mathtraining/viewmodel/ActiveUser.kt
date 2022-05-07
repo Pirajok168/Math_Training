@@ -27,6 +27,12 @@ class ActiveUserViewModel: ViewModel() {
 
     val event: MutableState<Event> = mutableStateOf(Event.Loading)
 
+    val nightMode: MutableState<Boolean> = mutableStateOf(false)
+
+    fun onChangeNightMode(){
+        nightMode.value = !nightMode.value
+    }
+
     private val currentDate = Date()
 
     init {

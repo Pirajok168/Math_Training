@@ -17,22 +17,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mathtraining.database.ActiveUser
 import com.example.mathtraining.math.theme.MathTheme
+import com.example.mathtraining.viewmodel.ActiveUserViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DarkMode(@StringRes label: Int,
              @DrawableRes icon: Int,
+             activeUser: ActiveUserViewModel,
              backColor: Color,
              tintColor: Color,
-             isNightMode: Boolean,
              onChange: (value: Boolean)-> Unit,
-
-) {
-    Log.e("user","DarkMode - $isNightMode")
-    val check = remember {
-        mutableStateOf(isNightMode)
-    }
+             ) {
+    val check = activeUser.nightMode
     Row(horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -58,7 +56,7 @@ fun DarkMode(@StringRes label: Int,
             }
         }
 
-        Switch(checked = check.value, onCheckedChange = { check.value = it; onChange(it) })
+        Switch(checked = check.value, onCheckedChange = { activeUser.onChangeNightMode() })
 
     }
 

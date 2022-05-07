@@ -17,19 +17,13 @@ fun NavGraphBuilder.lessonGraph(
         }
 
         composable(
-            route = "${Screens.ResultScreen.route}?result={result}&isEnd={isEnd}",
-            arguments = listOf(
-                navArgument("result") { type = NavType.StringType },
-                navArgument("isEnd") { type = NavType.BoolType },
-            )
+            route = Screens.ResultScreen.route,
         ){
-                backStackEntry ->
             ResultScreen(
-                result = backStackEntry.arguments?.getString("result")!!,
-                isEnd = backStackEntry.arguments?.getBoolean("isEnd")!!,
                 onContinue = onContinue,
                 onEnd = onEnd
             )
         }
+
     }
 }

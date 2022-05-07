@@ -15,17 +15,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mathtraining.R
+import com.example.mathtraining.database.ActiveUser
 import com.example.mathtraining.itemWorkpiece.ChangeCourse
 import com.example.mathtraining.itemWorkpiece.ChooseLanguage
 import com.example.mathtraining.itemWorkpiece.DarkMode
 import com.example.mathtraining.itemWorkpiece.Notifications
 import com.example.mathtraining.math.theme.LocaleApp
 import com.example.mathtraining.math.theme.MathTheme
+import com.example.mathtraining.viewmodel.ActiveUserViewModel
 
 @Composable
 fun Settings(
-    isNightMode: Boolean,
+    activeUser: ActiveUserViewModel,
     enableNotification: Boolean,
     onChooseLocale: (locale: LocaleApp) -> Unit,
     onChooseNightMode: (isNightMode: Boolean) -> Unit,
@@ -71,10 +74,11 @@ fun Settings(
             }
 
             item{
-                DarkMode(MathTheme.localization.darkMode, R.drawable.baseline_dark_mode_24
-                    , MathTheme.colors.backgroundColorIconDarkMode
+                DarkMode( label = MathTheme.localization.darkMode
+                    ,icon = R.drawable.baseline_dark_mode_24
+                    , activeUser = activeUser
+                    , backColor = MathTheme.colors.backgroundColorIconDarkMode
                     , MathTheme.colors.tintColorIconDarkMode
-                    , isNightMode=isNightMode
                 ){
                     onChooseNightMode(it)
                 }

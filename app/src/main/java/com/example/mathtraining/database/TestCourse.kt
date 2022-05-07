@@ -28,7 +28,7 @@ object SampleData{
                     second = 43,
                     operator = "plus",
                 ),
-                ListLessons(
+               /* ListLessons(
                     first = 12,
                     second = 47,
                     operator = "plus",
@@ -47,7 +47,7 @@ object SampleData{
                     first = 10,
                     second = 23,
                     operator = "plus",
-                )
+                )*/
 
             ),
 

@@ -109,7 +109,8 @@ fun Lesson(
                 textResult.value,
                 onNext = {
                     if (lastElem.value){
-
+                        viewModelTwoBit.complete()
+                        onResultScreen()
                     }else{
                         viewModelTwoBit.fetchData()
                         scope.launch {
@@ -180,7 +181,7 @@ fun Lesson(
             }
         }
     }
-    /* */
+
 }
 
 
@@ -310,14 +311,6 @@ fun Answer(
     onFirst: (a: String) -> Unit,
     onSecond: (a: String) -> Unit
 ) {
-
-   /* val firstNumber = remember{
-        mutableStateOf("")
-    }
-
-    val secondNumber = remember{
-        mutableStateOf("")
-    }*/
 
 
     Row(

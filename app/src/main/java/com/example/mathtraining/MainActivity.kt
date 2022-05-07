@@ -39,9 +39,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.mathtraining.math.theme.*
-import com.example.mathtraining.nav.LabelScreens
-import com.example.mathtraining.nav.Screens
-import com.example.mathtraining.nav.SetupNavGraph
+import com.example.mathtraining.nav.*
 import com.example.mathtraining.screens.*
 import com.example.mathtraining.viewmodel.ActiveUserViewModel
 import com.example.mathtraining.viewmodel.Event
@@ -73,9 +71,7 @@ class MainActivity : ComponentActivity() {
                 mutableStateOf(LocaleApp.Russian)
             }
 
-            val isNightMode = remember {
-                mutableStateOf(false)
-            }
+
 
             val workManagerViewModel:WorkManagerViewModel = hiltViewModel()
             val activeUserViewModel: ActiveUserViewModel = viewModel()
@@ -85,6 +81,8 @@ class MainActivity : ComponentActivity() {
                     activeUserViewModel.validate()
                 }
             }
+
+            val isNightMode = activeUserViewModel.nightMode
 
             val enableNotification = workManagerViewModel.isActiveNotification.observeAsState(initial = null)
 
@@ -135,7 +133,7 @@ class MainActivity : ComponentActivity() {
                         onChooseNightMode = {
                             isNightMode.value = it
                         },
-                        isNightMode=isNightMode.value,
+                        activeUser=activeUserViewModel,
                         onEnableNotification={
 
                             workManagerViewModel.updateEnableNotification(it, id.value!!)
@@ -157,18 +155,16 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ScreenNavigation(
-    isNightMode: Boolean,
     enableNotification: Boolean,
     onChooseLocale: (locale: LocaleApp) -> Unit,
     onChooseNightMode: (isNightMode: Boolean) -> Unit,
     onEnableNotification: (enable: Boolean) -> Unit,
-
+    activeUser: ActiveUserViewModel,
 ) {
     val navHostController = rememberNavController()
 
     SetupNavGraph(
         navController = navHostController,
-        isNightMode = isNightMode,
         enableNotification = enableNotification,
         onChooseNightMode = onChooseNightMode,
         onEnableNotification = onEnableNotification,
@@ -189,6 +185,9 @@ fun ScreenNavigation(
         },
         onLessonScreen={
             navHostController.navigate(Screens.LessonScreen.route){
+                popUpTo(MAIN_GRAPH_ROUTE){
+                    inclusive = true
+                }
                 launchSingleTop = true
             }
         },
@@ -196,12 +195,20 @@ fun ScreenNavigation(
 
         },
         onContinue = {
+            navHostController.navigate(Screens.MainScreen.route){
+                popUpTo(LESSON_GRAPH_ROUTE) {
+                    inclusive = true
+                }
+                launchSingleTop = true
+            }
 
         },
         onResultScreen = {
-
+            navHostController.navigate("${Screens.ResultScreen.route}?"){
+                launchSingleTop = true
+            }
         },
-
+        activeUser=activeUser
     )
 
 

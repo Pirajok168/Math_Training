@@ -57,14 +57,19 @@ class TwoBitLessonViewModel(
 
     val health: MutableState<Int> = mutableStateOf(5)
 
+
+    fun complete(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val listStat = activeUser.value?.listStatistic
+            userRepository.addStatTrackStar(listStat?.last()!!)
+        }
+    }
+
     fun checkAnswerUser(){
 
         try {
             if ("${userInputFirst.value}${userInputSecond.value}".toInt()==currentAnswer){
-                viewModelScope.launch(Dispatchers.IO) {
-                    val listStat = activeUser.value?.listStatistic
-                    userRepository.addStatTrackStar(listStat?.last()!!)
-                }
+
                 stateAnswer.value = StateAnswer.Successfully("Успешно")
                 selectedСourse.value?.passed = passed.value + 1
             }else{

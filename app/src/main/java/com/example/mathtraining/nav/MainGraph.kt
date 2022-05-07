@@ -9,16 +9,17 @@ import com.example.mathtraining.math.theme.LocaleApp
 import com.example.mathtraining.screens.CreateAccount
 import com.example.mathtraining.screens.Settings
 import com.example.mathtraining.screens.SplashScreen
+import com.example.mathtraining.viewmodel.ActiveUserViewModel
 
 fun NavGraphBuilder.mainGraph(
-    isNightMode: Boolean,
     enableNotification: Boolean,
     onChooseLocale: (locale: LocaleApp) -> Unit,
     onChooseNightMode: (isNightMode: Boolean) -> Unit,
     onEnableNotification: (enable: Boolean) -> Unit,
     onSettingScreen: () -> Unit,
     onNavigation: (screen: Screens, popUpTo: String) -> Unit,
-    onLessonScreen: () -> Unit
+    onLessonScreen: () -> Unit,
+    activeUser: ActiveUserViewModel,
 ){
     navigation(
         startDestination = Screens.MainScreen.route,
@@ -37,7 +38,7 @@ fun NavGraphBuilder.mainGraph(
 
         composable(Screens.Settings.route){
             Settings(
-                isNightMode = isNightMode,
+                activeUser = activeUser,
                 onChooseLocale = onChooseLocale,
                 onChooseNightMode = onChooseNightMode,
                 enableNotification = enableNotification,
@@ -45,6 +46,7 @@ fun NavGraphBuilder.mainGraph(
             )
 
         }
+
     }
 
 }

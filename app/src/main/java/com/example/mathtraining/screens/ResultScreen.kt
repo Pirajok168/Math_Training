@@ -7,21 +7,12 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun ResultScreen(
-    result: String,
-    isEnd: Boolean,
     onContinue: () -> Unit,
     onEnd: () -> Unit
 ) {
     Scaffold() {
-        Text(text = result)
-        Button(onClick = {
-            val func = if(isEnd){
-                onEnd
-            }else{
-                onContinue
-            }
-            func()
-        }) {
+        Text(text = "result")
+        Button(onClick = { onContinue() }) {
             Text(text = "Next")
         }
     }

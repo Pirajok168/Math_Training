@@ -8,12 +8,12 @@ import com.example.mathtraining.ScreenContent
 import com.example.mathtraining.math.theme.LocaleApp
 import com.example.mathtraining.screens.CreateAccount
 import com.example.mathtraining.screens.Settings
+import com.example.mathtraining.viewmodel.ActiveUserViewModel
 
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
     onNavigation: (screen: Screens, popUpTo: String) -> Unit,
-    isNightMode: Boolean,
     enableNotification: Boolean,
     onChooseLocale: (locale: LocaleApp) -> Unit,
     onChooseNightMode: (isNightMode: Boolean) -> Unit,
@@ -23,7 +23,7 @@ fun SetupNavGraph(
     onContinue: () -> Unit,
     onEnd: () -> Unit,
     onResultScreen: () -> Unit,
-
+    activeUser: ActiveUserViewModel,
 ){
     NavHost(navController = navController, startDestination = AUTH_GRAPH_ROUTE, route = ROOT_GRAPH_ROUTE ){
         authGraph(navController = navController, onNavigation)
@@ -38,7 +38,7 @@ fun SetupNavGraph(
             CreateAccount(onNavigation)
         }
 
-        composable(Screens.MainScreen.route){
+        /*composable(Screens.MainScreen.route){
             ScreenContent(
                 onMenuScreen=onSettingScreen,
                 onLessonScreen=onLessonScreen
@@ -54,16 +54,17 @@ fun SetupNavGraph(
                 onEnableNotification = onEnableNotification
             )
 
-        }
+        }*/
 
-        /*mainGraph(
-            isNightMode,
+        mainGraph(
             enableNotification,
             onChooseLocale,
             onChooseNightMode,
             onEnableNotification,
             onSettingScreen,
-            onNavigation
-        )*/
+            onNavigation,
+            onLessonScreen,
+            activeUser
+        )
     }
 }
