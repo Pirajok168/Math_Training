@@ -1,6 +1,7 @@
 package com.example.mathtraining.screens
 
 import android.graphics.Typeface
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -217,18 +218,23 @@ fun  Graph(
             var endX = (size.height * it.statTrack) / max
             endX = canvasHeight-endX
 
+
+
+
+            val endY = if (canvasHeight-endX == 0f) canvasHeight-55f else endX
+
             drawRoundRect(
                 color = color,
                 cornerRadius = CornerRadius(10f),
-                topLeft = Offset(x, endX),
-                size = Size(30f, canvasHeight-endX - 45f)
+                topLeft = Offset(x,  endY),
+                size = Size(30f, if(canvasHeight-endX == 0f) 13f else canvasHeight-endX - 45f)
             )
 
 
             drawLine(
                 color = Color.Black,
-                start = Offset(30f, endX),
-                end = Offset(x, endX),
+                start = Offset(30f,endY),
+                end = Offset(x, endY),
                 strokeWidth = 3f,
                 pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
             )
@@ -238,7 +244,7 @@ fun  Graph(
                 canvas.nativeCanvas.drawText(
                     it.statTrack.toInt().toString(),
                     30f,
-                    endX+40f,
+                    endY - 10f,
                     textPaint
                 )
             }
