@@ -2,12 +2,13 @@ package com.example.mathtraining.screens
 
 import android.graphics.Typeface
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +18,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -30,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mathtraining.R
 import com.example.mathtraining.database.Statistic
+import com.example.mathtraining.viewmodel.EventStatistic
 import com.example.mathtraining.viewmodel.UserStatisticViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -44,12 +47,20 @@ fun Statistic(
     innerPadding: PaddingValues,
     userStatisticViewModel: UserStatisticViewModel = viewModel()
 ) {
-    val activeUser = userStatisticViewModel.activeUser.observeAsState(null)
+    val activeUser = userStatisticViewModel.listStatistic
+    val eventStatistic = userStatisticViewModel.eventStatistic
+
+    when(eventStatistic.value){
+        is EventStatistic.Error ->{
+            Toast.makeText(LocalContext.current, "Вы ешё недоучились", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
     Scaffold(
         modifier = Modifier.padding(innerPadding)
     ){
-        val list = activeUser.value?.listStatistic
+        val list = activeUser.value
         
         Column(
             modifier = Modifier
@@ -59,7 +70,7 @@ fun Statistic(
         ) {
             ChangeRange(
                 onClick = {
-
+                    userStatisticViewModel.changeRange(it)
                 }
             )
             LabelCompliment(Color(0xB2F3F3F3), "хорошо")
@@ -73,9 +84,7 @@ fun Statistic(
                 .padding(10.dp)
             , contentAlignment = Alignment.BottomCenter
         ){
-            Graph( list?.sortedBy {
-                it.day
-            } ?: listOf(), Color.Blue, Color.Black)
+            Graph( list ?: listOf(), Color.Blue, Color.Black)
 
             
         }
@@ -143,12 +152,13 @@ fun LabelCompliment(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ChangeRange(
-    onClick: () -> Unit
+    onClick: (range: Int) -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
     Card(
         shape = RoundedCornerShape(30.dp),
         onClick = {
-            onClick()
+            expanded = true
         }
     ) {
         
@@ -161,7 +171,23 @@ fun ChangeRange(
 
             Text(text = "Последние 7 дней", modifier = Modifier.padding(start = 8.dp))
         }
+        
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            for (i in 1 .. 7){
+                DropdownMenuItem(onClick = {
+                    onClick(i)
+                    expanded = false
+                }) {
+                    Text(text = "Последние $i дней")
+                }
+            }
 
+
+
+        }
     }
 }
 
