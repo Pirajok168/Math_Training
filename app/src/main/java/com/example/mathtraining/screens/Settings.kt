@@ -51,7 +51,8 @@ fun Settings(
     }
 
     Surface( modifier = Modifier
-        .fillMaxSize(),
+        .fillMaxSize()
+        .systemBarsPadding(),
         color= MathTheme.colors.backgroundColor[0]
     ) {
         LazyColumn(

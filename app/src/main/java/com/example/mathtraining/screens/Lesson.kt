@@ -126,7 +126,7 @@ fun Lesson(
 
     ) {
         Scaffold(
-            modifier = Modifier,
+            modifier = Modifier.systemBarsPadding(),
             topBar = {
                 InfoForLessons(
                     health.value,
@@ -195,27 +195,36 @@ fun ResultContent(
     text: String,
     onNext: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp),
-        horizontalAlignment = Alignment.Start
-    ){
-        Text(
-            text = text,
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold, 
-            color = Color.White
-        )
-        Spacer(modifier = Modifier.size(10.dp))
-        Button(
-            onClick = { onNext() },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Продолжить")
+
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            horizontalAlignment = Alignment.Start,
+        ){
+
+            Text(
+                text = text,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+
+
+            Spacer(modifier = Modifier.size(10.dp))
+            Button(
+                onClick = { onNext() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Продолжить")
+            }
+
+            Spacer(modifier = Modifier.navigationBarsPadding())
+
         }
 
-    }
+
 }
 @Composable
 fun CaseStudy(

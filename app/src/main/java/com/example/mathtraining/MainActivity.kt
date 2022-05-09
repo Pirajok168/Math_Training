@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -62,7 +63,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
-
+            WindowCompat.setDecorFitsSystemWindows(window, false)
 
 
 
@@ -234,6 +235,7 @@ fun ScreenContent(
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
+            .systemBarsPadding()
             //.background(brush)
                 ,
         bottomBar = {

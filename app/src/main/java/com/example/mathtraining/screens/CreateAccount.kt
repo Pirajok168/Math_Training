@@ -53,11 +53,15 @@ import com.google.accompanist.insets.LocalWindowInsets
 fun CreateAccount(
     onNavigation: (screen: Screens, popUpTo: String) -> Unit
 ) {
+
+
     Scaffold(
         backgroundColor = MathTheme.colors.backgroundCreateAccount,
     ) {
         BackgroundForInput(onNavigation)
     }
+
+
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -75,13 +79,23 @@ fun BackgroundForInput(
     val context = LocalContext.current
     val toastLabel = stringResource(id = MathTheme.localization.toastLabel)
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd){
+
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding(),
+        contentAlignment = Alignment.BottomEnd
+    ){
         Surface(
             color = MathTheme.colors.backgroundInputSurface,
             modifier = Modifier
                 .size(600.dp),
             shape = RoundedCornerShape(topStart = 80.dp)
         ) {
+
+
+
             Column(
                 modifier = Modifier.padding(horizontal = 70.dp, vertical = 60.dp)
             ){
@@ -92,14 +106,14 @@ fun BackgroundForInput(
                     fontFamily = FontFamily.Monospace
                 )
 
-
                 Column(
                     modifier= Modifier
                         .fillMaxHeight()
                         .padding(top = 30.dp),
                     verticalArrangement = Arrangement.SpaceAround,
 
-                ) {
+                    ) {
+
 
                     Input(
                         name.value,
@@ -124,6 +138,10 @@ fun BackgroundForInput(
                             viewModelCreateAccount.selectedCountry.value = it
                         }
                     )
+
+
+
+
 
                     Row(
                         modifier=Modifier.fillMaxWidth(),
@@ -162,6 +180,10 @@ fun BackgroundForInput(
                     }
                 }
             }
+
+
+
+
         }
     }
 }
