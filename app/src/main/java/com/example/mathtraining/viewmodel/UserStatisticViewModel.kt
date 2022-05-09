@@ -21,12 +21,26 @@ class UserStatisticViewModel: ViewModel() {
     private val activeUser: MutableState<List<Statistic>?> = mutableStateOf(null)
     val listStatistic:  MutableState<List<Statistic>?> = mutableStateOf(null)
 
+
+    val correctDay: MutableState<Int> =  mutableStateOf(0)
+    val inCorrectDay: MutableState<Int> =  mutableStateOf(0)
+
     init {
         _activeUser.observeForever {
             activeUser.value = it.listStatistic.sortedBy {
                     stat->
                 stat.day
             }.reversed()
+
+            correctDay.value = activeUser.value?.sumOf {
+                    stat->
+                stat.currectAnswer
+            }!!
+
+            inCorrectDay.value = activeUser.value?.sumOf {
+                    stat->
+                stat.incorrectAnswer
+            }!!
 
             listStatistic.value = it.listStatistic.sortedBy {
                 stat->

@@ -9,8 +9,15 @@ data class Course(
     val nameLesson: String,
     val listLessons: List<ListLessons>,
     var passed: Int = 0,
-    var complete: Boolean = false
-)
+    var complete: Boolean = false,
+    var currectAnswer: Int = 0,
+    var incorrectAnswer: Int = 0,
+){
+    val isCorrectly: Boolean
+        get() {
+            return incorrectAnswer == 0
+        }
+}
 
 data class ListLessons(
     val first: Int,

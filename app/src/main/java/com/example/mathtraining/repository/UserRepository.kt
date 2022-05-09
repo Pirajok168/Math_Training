@@ -3,10 +3,7 @@ package com.example.mathtraining.repository
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
-import com.example.mathtraining.database.ActiveUser
-import com.example.mathtraining.database.Statistic
-import com.example.mathtraining.database.User
-import com.example.mathtraining.database.UserDatabase
+import com.example.mathtraining.database.*
 
 class UserRepository(context: Context) {
     private val database = Room.databaseBuilder(
@@ -45,8 +42,17 @@ class UserRepository(context: Context) {
         userDao.insert(statistic)
     }
 
-    suspend fun addStatTrackStar(statistic: Statistic){
-        statistic.statTrack += 1f
+    suspend fun addStatTrackStar(statistic: Statistic, course: Course){
+        statistic.apply {
+            if (course.isCorrectly){
+                currectAnswer += 1
+            }else{
+                incorrectAnswer += 1
+            }
+
+
+            statTrack += 1f
+        }
         userDao.updateStatistic(statistic)
     }
 

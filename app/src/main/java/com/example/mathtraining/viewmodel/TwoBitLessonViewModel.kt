@@ -23,7 +23,7 @@ class TwoBitLessonViewModel(
     private val courseRepository: CourseRepository =  CourseRepository.get(),
     private val userRepository: UserRepository = UserRepository.get()
 ): ViewModel() {
-    val selectedСourse: MutableLiveData<Course> = courseRepository._selectedСourse
+    private val selectedСourse: MutableLiveData<Course> = courseRepository._selectedСourse
     private val activeUser = userRepository.activeUser
 
     var countElemForLesson: MutableState<Int> = mutableStateOf(0)
@@ -64,7 +64,7 @@ class TwoBitLessonViewModel(
             val listStat = activeUser.value?.listStatistic?.sortedBy {
                 it.day
             }
-            userRepository.addStatTrackStar(listStat?.last()!!)
+            userRepository.addStatTrackStar(listStat?.last()!!,  selectedСourse.value!!)
         }
     }
 
@@ -72,18 +72,19 @@ class TwoBitLessonViewModel(
 
         try {
             if ("${userInputFirst.value}${userInputSecond.value}".toInt()==currentAnswer){
-
                 stateAnswer.value = StateAnswer.Successfully("Успешно")
                 selectedСourse.value?.passed = passed.value + 1
             }else{
                 health.value = health.value - 1
                 selectedСourse.value?.passed = passed.value + 1
+                selectedСourse.value?.incorrectAnswer = selectedСourse.value?.incorrectAnswer!! + 1
                 stateAnswer.value = StateAnswer.Error("Ошибка")
             }
         }catch (e: Exception){
             health.value = health.value - 1
             selectedСourse.value?.passed = passed.value + 1
             stateAnswer.value = StateAnswer.Error("Ошибка")
+            selectedСourse.value?.incorrectAnswer = selectedСourse.value?.incorrectAnswer!! + 1
         }
 
 

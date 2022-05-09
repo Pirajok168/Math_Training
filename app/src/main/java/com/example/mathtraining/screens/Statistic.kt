@@ -1,15 +1,11 @@
 package com.example.mathtraining.screens
 
-import android.graphics.Typeface
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -17,7 +13,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -26,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -35,11 +29,6 @@ import com.example.mathtraining.database.Statistic
 import com.example.mathtraining.viewmodel.EventStatistic
 import com.example.mathtraining.viewmodel.UserStatisticViewModel
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.io.path.Path
-
-
-
 
 
 @Composable
@@ -49,6 +38,9 @@ fun Statistic(
 ) {
     val activeUser = userStatisticViewModel.listStatistic
     val eventStatistic = userStatisticViewModel.eventStatistic
+    val correctAnswer = userStatisticViewModel.correctDay
+    val inCorrectAnswer = userStatisticViewModel.inCorrectDay
+
 
     when(eventStatistic.value){
         is EventStatistic.Error ->{
@@ -74,7 +66,7 @@ fun Statistic(
                 }
             )
             LabelCompliment(Color(0xB2F3F3F3), "хорошо")
-            Day()
+            Day(correctAnswer.value, inCorrectAnswer.value)
         }
         
         
@@ -94,9 +86,7 @@ fun Statistic(
 }
 
 @Composable
-fun Day(
-
-) {
+fun Day(value: Int, value1: Int) {
     Row(
         modifier = Modifier
             .padding(top = 20.dp)
@@ -106,7 +96,7 @@ fun Day(
         Column() {
             Text(text = "Хорошие дни", fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.size(20.dp))
-            Text(text = "120", fontSize = 40.sp, fontWeight = FontWeight.ExtraBold)
+            Text(text = value.toString(), fontSize = 40.sp, fontWeight = FontWeight.ExtraBold)
 
             
         }
@@ -114,7 +104,7 @@ fun Day(
         Column() {
             Text(text = "Плохие дни", fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.size(20.dp))
-            Text(text = "23", fontSize = 40.sp, fontWeight = FontWeight.ExtraBold)
+            Text(text = value1.toString(), fontSize = 40.sp, fontWeight = FontWeight.ExtraBold)
         }
 
     }

@@ -2,6 +2,7 @@ package com.example.mathtraining.database
 
 import android.app.Notification
 import androidx.room.*
+import com.example.mathtraining.viewmodel.StateAnswer
 import java.util.*
 
 
@@ -12,6 +13,8 @@ data class Statistic(
         val userOwnerId: Int,
         val day: Date,
         var statTrack: Float,
+        var currectAnswer: Int = 0,
+        var incorrectAnswer: Int = 0,
 )
 
 
