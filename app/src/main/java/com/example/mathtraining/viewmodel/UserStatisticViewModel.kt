@@ -10,7 +10,7 @@ import com.example.mathtraining.repository.UserRepository
 
 sealed class EventStatistic{
     object Error: EventStatistic()
-    object Successful: EventStatistic()
+    data class Successful(val label: String): EventStatistic()
     object Check: EventStatistic()
 }
 
@@ -50,16 +50,18 @@ class UserStatisticViewModel: ViewModel() {
     }
 
 
-    fun changeRange(range: Int){
+    fun event(){
         eventStatistic.value = EventStatistic.Check
+    }
+
+    fun changeRange(range: Int, label: String){
         val list = activeUser.value
         if (range > list?.size!!){
             eventStatistic.value = EventStatistic.Error
         }else{
-            eventStatistic.value = EventStatistic.Successful
+            eventStatistic.value = EventStatistic.Successful(label)
             listStatistic.value = list.subList(0, range).reversed()
         }
-
     }
 
 }

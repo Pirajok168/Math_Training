@@ -42,9 +42,18 @@ fun Statistic(
     val inCorrectAnswer = userStatisticViewModel.inCorrectDay
 
 
-    when(eventStatistic.value){
+    val label = remember {
+        mutableStateOf("Последние 7 дней")
+    }
+
+
+    when(val state = eventStatistic.value){
         is EventStatistic.Error ->{
             Toast.makeText(LocalContext.current, "Вы ешё недоучились", Toast.LENGTH_SHORT).show()
+            userStatisticViewModel.event()
+        }
+        is EventStatistic.Successful->{
+            label.value = state.label
         }
     }
 
@@ -61,8 +70,10 @@ fun Statistic(
             ,
         ) {
             ChangeRange(
+                label.value,
                 onClick = {
-                    userStatisticViewModel.changeRange(it)
+                     range, label->
+                    userStatisticViewModel.changeRange(range, label)
                 }
             )
             LabelCompliment(Color(0xB2F3F3F3), "хорошо")
@@ -142,9 +153,15 @@ fun LabelCompliment(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ChangeRange(
-    onClick: (range: Int) -> Unit
+    label: String,
+    onClick: (
+        range: Int,
+        label: String,
+    ) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
+
+
     Card(
         shape = RoundedCornerShape(30.dp),
         onClick = {
@@ -159,7 +176,7 @@ fun ChangeRange(
             Icon(painter = painterResource(id = R.drawable.ic_baseline_edit_calendar_24)
                 , contentDescription = "")
 
-            Text(text = "Последние 7 дней", modifier = Modifier.padding(start = 8.dp))
+            Text(text = label, modifier = Modifier.padding(start = 8.dp))
         }
         
         DropdownMenu(
@@ -168,7 +185,10 @@ fun ChangeRange(
         ) {
             for (i in 1 .. 7){
                 DropdownMenuItem(onClick = {
-                    onClick(i)
+                    onClick(
+                        i,
+                        "Последние $i дней"
+                    )
                     expanded = false
                 }) {
                     Text(text = "Последние $i дней")
