@@ -20,10 +20,16 @@ sealed class StateAnswer{
     object Check: StateAnswer()
 }
 
+sealed class StateLesson{
+    object Loading: StateLesson()
+    object Successful: StateLesson()
+    data class Error(val message: String): StateLesson()
+}
+
 
 sealed class EventLesson{
     object LoadingLesson: EventLesson()
-    object
+    object NextLesson: EventLesson()
 }
 
 class TwoBitLessonViewModel(
@@ -46,16 +52,43 @@ class TwoBitLessonViewModel(
 
 
     fun event(_eventLesson: EventLesson){
-
+        when(_eventLesson){
+            is EventLesson.LoadingLesson->{
+                loadingData()
+            }
+            is EventLesson.NextLesson->{
+                fetchLesson()
+            }
+        }
     }
 
+    val stateAnswer: MutableState<StateAnswer> = mutableStateOf(StateAnswer.Check)
+    val stateLesson: MutableState<StateLesson> = mutableStateOf(StateLesson.Loading)
+    private val listLessons: MutableState<List<ListLessons>> = mutableStateOf(listOf())
+    private fun loadingData(){
+        listLessons.value = selectedСourse.value?.listLessons!!
+        elemCourse.value = listLessons.value[passed.value]
+        stateLesson.value = StateLesson.Successful
+        currentAnswer = elemCourse.value?.currentAnswer!!
+        countElemForLesson.value = listLessons.value.size
+        lastElem.value = passed.value + 1  == listLessons.value.size
+    }
 
+    private fun fetchLesson(){
+        passed.value += 1
+        stateLesson.value = StateLesson.Loading
+        userInputFirst.value = ""
+        userInputSecond.value = ""
+        elemCourse.value = listLessons.value[passed.value]
+        currentAnswer = elemCourse.value?.currentAnswer!!
+        lastElem.value = passed.value + 1  == listLessons.value.size
+    }
 
     val elemCourse: MutableState<ListLessons?> = mutableStateOf(null)
 
     val lastElem: MutableState<Boolean> = mutableStateOf(false)
 
-    fun fetchData(){
+   /* fun fetchData(){
         stateAnswer.value = StateAnswer.Check
         userInputFirst.value = ""
         userInputSecond.value = ""
@@ -65,9 +98,9 @@ class TwoBitLessonViewModel(
         currentAnswer =  elemCourse.value?.currentAnswer!!
         countElemForLesson.value = listLesson.size
         lastElem.value = passed.value + 1  == listLesson.size
-    }
+    }*/
 
-    val stateAnswer: MutableState<StateAnswer> = mutableStateOf(StateAnswer.Check)
+
 
     val health: MutableState<Int> = mutableStateOf(5)
 
@@ -83,20 +116,20 @@ class TwoBitLessonViewModel(
     }
 
     fun checkAnswerUser(){
-
+        stateAnswer.value = StateAnswer.Check
         try {
             if ("${userInputFirst.value}${userInputSecond.value}".toInt()==currentAnswer){
                 stateAnswer.value = StateAnswer.Successfully("Успешно")
-                selectedСourse.value?.passed = passed.value + 1
+                selectedСourse.value?.passed = passed.value
             }else{
                 health.value = health.value - 1
-                selectedСourse.value?.passed = passed.value + 1
+                selectedСourse.value?.passed = passed.value
                 selectedСourse.value?.incorrectAnswer = selectedСourse.value?.incorrectAnswer!! + 1
                 stateAnswer.value = StateAnswer.Error("Ошибка")
             }
         }catch (e: Exception){
             health.value = health.value - 1
-            selectedСourse.value?.passed = passed.value + 1
+            selectedСourse.value?.passed = passed.value
             stateAnswer.value = StateAnswer.Error("Ошибка")
             selectedСourse.value?.incorrectAnswer = selectedСourse.value?.incorrectAnswer!! + 1
         }

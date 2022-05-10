@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mathtraining.R
+import com.example.mathtraining.viewmodel.EventLesson
 import com.example.mathtraining.viewmodel.StateAnswer
 import com.example.mathtraining.viewmodel.TwoBitLessonViewModel
 import kotlinx.coroutines.launch
@@ -49,7 +50,7 @@ fun Lesson(
     onResultScreen: () -> Unit
 ) {
     LaunchedEffect(key1 = 0, block = {
-        viewModelTwoBit.fetchData()
+        viewModelTwoBit.event(EventLesson.LoadingLesson)
     })
 
 
@@ -113,7 +114,7 @@ fun Lesson(
                         viewModelTwoBit.complete()
                         onResultScreen()
                     }else{
-                        viewModelTwoBit.fetchData()
+                        viewModelTwoBit.event(EventLesson.NextLesson)
                         scope.launch {
                             drawerState.close()
                         }
