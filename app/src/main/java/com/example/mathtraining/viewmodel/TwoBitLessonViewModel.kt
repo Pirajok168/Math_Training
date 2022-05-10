@@ -2,6 +2,7 @@ package com.example.mathtraining.viewmodel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.neverEqualPolicy
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,12 +20,20 @@ sealed class StateAnswer{
     object Check: StateAnswer()
 }
 
+
+sealed class EventLesson{
+    object LoadingLesson: EventLesson()
+    object
+}
+
 class TwoBitLessonViewModel(
     private val courseRepository: CourseRepository =  CourseRepository.get(),
     private val userRepository: UserRepository = UserRepository.get()
 ): ViewModel() {
     private val selectedСourse: MutableLiveData<Course> = courseRepository._selectedСourse
     private val activeUser = userRepository.activeUser
+    val healthUser: MutableState<Int?> = mutableStateOf(null)
+
 
     var countElemForLesson: MutableState<Int> = mutableStateOf(0)
     var passed: MutableState<Int> = mutableStateOf(0)
@@ -34,6 +43,11 @@ class TwoBitLessonViewModel(
 
     var currentAnswer:Int =0
 
+
+
+    fun event(_eventLesson: EventLesson){
+
+    }
 
 
 
