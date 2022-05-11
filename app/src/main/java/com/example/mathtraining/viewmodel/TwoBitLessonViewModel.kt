@@ -1,5 +1,6 @@
 package com.example.mathtraining.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
@@ -11,6 +12,8 @@ import com.example.mathtraining.database.ListLessons
 import com.example.mathtraining.repository.CourseRepository
 import com.example.mathtraining.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -38,7 +41,7 @@ class TwoBitLessonViewModel(
 ): ViewModel() {
     private val selectedСourse: MutableLiveData<Course> = courseRepository._selectedСourse
     private val activeUser = userRepository.activeUser
-    val healthUser: MutableState<Int?> = mutableStateOf(null)
+
 
 
     var countElemForLesson: MutableState<Int> = mutableStateOf(0)
@@ -47,7 +50,7 @@ class TwoBitLessonViewModel(
     val userInputFirst: MutableState<String> = mutableStateOf("")
     val userInputSecond: MutableState<String> = mutableStateOf("")
 
-    var currentAnswer:Int =0
+    var currentAnswer: Int =0
 
 
 
@@ -62,16 +65,25 @@ class TwoBitLessonViewModel(
         }
     }
 
+
+
     val stateAnswer: MutableState<StateAnswer> = mutableStateOf(StateAnswer.Check)
     val stateLesson: MutableState<StateLesson> = mutableStateOf(StateLesson.Loading)
     private val listLessons: MutableState<List<ListLessons>> = mutableStateOf(listOf())
     private fun loadingData(){
-        listLessons.value = selectedСourse.value?.listLessons!!
-        elemCourse.value = listLessons.value[passed.value]
-        stateLesson.value = StateLesson.Successful
-        currentAnswer = elemCourse.value?.currentAnswer!!
-        countElemForLesson.value = listLessons.value.size
-        lastElem.value = passed.value + 1  == listLessons.value.size
+
+        viewModelScope.launch(Dispatchers.IO) {
+            health.value = userRepository.getHealth()
+            listLessons.value = selectedСourse.value?.listLessons!!
+            elemCourse.value = listLessons.value[passed.value]
+            currentAnswer = elemCourse.value?.currentAnswer!!
+            countElemForLesson.value = listLessons.value.size
+            lastElem.value = passed.value + 1  == listLessons.value.size
+            delay(5000L)
+            stateLesson.value = StateLesson.Successful
+        }
+
+
     }
 
     private fun fetchLesson(){
@@ -88,21 +100,8 @@ class TwoBitLessonViewModel(
 
     val lastElem: MutableState<Boolean> = mutableStateOf(false)
 
-   /* fun fetchData(){
-        stateAnswer.value = StateAnswer.Check
-        userInputFirst.value = ""
-        userInputSecond.value = ""
-        val listLesson = selectedСourse.value?.listLessons!!
-        passed.value = selectedСourse.value?.passed!!
-        elemCourse.value = listLesson[passed.value]
-        currentAnswer =  elemCourse.value?.currentAnswer!!
-        countElemForLesson.value = listLesson.size
-        lastElem.value = passed.value + 1  == listLesson.size
-    }*/
 
-
-
-    val health: MutableState<Int> = mutableStateOf(5)
+    var health: MutableState<Int> = mutableStateOf(0)
 
 
     fun complete(){

@@ -25,7 +25,7 @@ data class User(
         @ColumnInfo(name = "surname") val surname: String,
         @ColumnInfo(name = "isActiveNotification") val isActiveNotification: Boolean = true,
         @ColumnInfo(name = "timeNotification") val timeNotification: String = "",
-        val health: Int,
+        val health: Int = 5,
 )
 
 

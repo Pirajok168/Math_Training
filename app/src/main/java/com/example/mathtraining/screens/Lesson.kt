@@ -1,11 +1,9 @@
 package com.example.mathtraining.screens
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -30,7 +28,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -40,6 +37,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mathtraining.R
 import com.example.mathtraining.viewmodel.EventLesson
 import com.example.mathtraining.viewmodel.StateAnswer
+import com.example.mathtraining.viewmodel.StateLesson
 import com.example.mathtraining.viewmodel.TwoBitLessonViewModel
 import kotlinx.coroutines.launch
 
@@ -54,6 +52,58 @@ fun Lesson(
     })
 
 
+
+
+
+
+    val context = LocalContext.current
+
+
+
+
+    val stateLesson = viewModelTwoBit.stateLesson
+
+
+
+
+    when(stateLesson.value){
+        is StateLesson.Error -> {
+
+        }
+        StateLesson.Loading -> {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .systemBarsPadding()
+                , contentAlignment = Alignment.Center
+            ){
+                CircularProgressIndicator()
+            }
+        }
+        StateLesson.Successful -> {
+            MainLessonScreen(viewModelTwoBit,  onResultScreen)
+        }
+    }
+
+
+
+
+
+
+    
+    BackHandler(true) {
+        Toast.makeText(context, "Вы уверены, что хотите выйти?", Toast.LENGTH_SHORT).show()
+    }
+
+}
+
+@SuppressLint("CoroutineCreationDuringComposition")
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
+@Composable
+fun MainLessonScreen(
+    viewModelTwoBit: TwoBitLessonViewModel,
+    onResultScreen: () -> Unit
+) {
     val course = viewModelTwoBit.elemCourse
 
     val keyboard = LocalSoftwareKeyboardController.current
@@ -61,14 +111,6 @@ fun Lesson(
     val focusManager = LocalFocusManager.current
 
     val scrollState = rememberScrollState()
-    val scope = rememberCoroutineScope()
-
-    val stateAnswer = viewModelTwoBit.stateAnswer
-    val context = LocalContext.current
-
-    val health = viewModelTwoBit.health
-
-
 
     val textResult = remember {
         mutableStateOf(" ")
@@ -77,10 +119,11 @@ fun Lesson(
     val colorResult = remember {
         mutableStateOf(Color.Black)
     }
-
-    val drawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
+    val health = viewModelTwoBit.health
+    val scope = rememberCoroutineScope()
     val lastElem = viewModelTwoBit.lastElem
-
+    val stateAnswer = viewModelTwoBit.stateAnswer
+    val drawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
     when(val state = stateAnswer.value){
         is StateAnswer.Successfully->{
             scope.launch {
@@ -103,7 +146,6 @@ fun Lesson(
         }
     }
 
-
     BottomDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -125,7 +167,7 @@ fun Lesson(
         drawerBackgroundColor = colorResult.value,
         gesturesEnabled = false,
 
-    ) {
+        ) {
         Scaffold(
             modifier = Modifier.systemBarsPadding(),
             topBar = {
@@ -182,14 +224,8 @@ fun Lesson(
                 )
             }
         }
-    }   
-    
-    BackHandler(true) {
-        Toast.makeText(context, "Вы уверены, что хотите выйти?", Toast.LENGTH_SHORT).show()
     }
-
 }
-
 
 @Composable
 fun ResultContent(
