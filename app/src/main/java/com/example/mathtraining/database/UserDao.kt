@@ -52,6 +52,9 @@ interface UserDao {
     @Update
     suspend fun updateStatistic(statistic: Statistic)
 
+    @Update
+    suspend fun updateUser(user: User)
+
     @Transaction
     suspend fun testInsert(userActiveUser: ActiveUser){
         insert(userActiveUser.user)

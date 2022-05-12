@@ -70,6 +70,7 @@ class TwoBitLessonViewModel(
     val stateAnswer: MutableState<StateAnswer> = mutableStateOf(StateAnswer.Check)
     val stateLesson: MutableState<StateLesson> = mutableStateOf(StateLesson.Loading)
     private val listLessons: MutableState<List<ListLessons>> = mutableStateOf(listOf())
+    var health: MutableState<Int> = mutableStateOf(0)
     private fun loadingData(){
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -79,7 +80,7 @@ class TwoBitLessonViewModel(
             currentAnswer = elemCourse.value?.currentAnswer!!
             countElemForLesson.value = listLessons.value.size
             lastElem.value = passed.value + 1  == listLessons.value.size
-            delay(5000L)
+            health.value = activeUser.value?.user?.health!!
             stateLesson.value = StateLesson.Successful
         }
 
@@ -87,13 +88,14 @@ class TwoBitLessonViewModel(
     }
 
     private fun fetchLesson(){
-        passed.value += 1
         stateLesson.value = StateLesson.Loading
+        passed.value += 1
         userInputFirst.value = ""
         userInputSecond.value = ""
         elemCourse.value = listLessons.value[passed.value]
         currentAnswer = elemCourse.value?.currentAnswer!!
         lastElem.value = passed.value + 1  == listLessons.value.size
+        stateLesson.value = StateLesson.Successful
     }
 
     val elemCourse: MutableState<ListLessons?> = mutableStateOf(null)
@@ -101,7 +103,7 @@ class TwoBitLessonViewModel(
     val lastElem: MutableState<Boolean> = mutableStateOf(false)
 
 
-    var health: MutableState<Int> = mutableStateOf(0)
+
 
 
     fun complete(){
@@ -110,7 +112,7 @@ class TwoBitLessonViewModel(
             val listStat = activeUser.value?.listStatistic?.sortedBy {
                 it.day
             }
-            userRepository.addStatTrackStar(listStat?.last()!!,  selectedСourse.value!!)
+            userRepository.addStatTrackStar(listStat?.last()!!,  selectedСourse.value!!, health.value)
         }
     }
 

@@ -62,8 +62,8 @@ fun Lesson(
 
 
     val stateLesson = viewModelTwoBit.stateLesson
-
-
+    val drawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
+    val scope = rememberCoroutineScope()
 
 
     when(stateLesson.value){
@@ -81,7 +81,11 @@ fun Lesson(
             }
         }
         StateLesson.Successful -> {
-            MainLessonScreen(viewModelTwoBit,  onResultScreen)
+            MainLessonScreen(viewModelTwoBit,  onResultScreen, drawerState)
+            scope.launch {
+                drawerState.close()
+            }
+
         }
     }
 
@@ -102,7 +106,8 @@ fun Lesson(
 @Composable
 fun MainLessonScreen(
     viewModelTwoBit: TwoBitLessonViewModel,
-    onResultScreen: () -> Unit
+    onResultScreen: () -> Unit,
+    drawerState: BottomDrawerState
 ) {
     val course = viewModelTwoBit.elemCourse
 
@@ -120,10 +125,11 @@ fun MainLessonScreen(
         mutableStateOf(Color.Black)
     }
     val health = viewModelTwoBit.health
-    val scope = rememberCoroutineScope()
+
     val lastElem = viewModelTwoBit.lastElem
     val stateAnswer = viewModelTwoBit.stateAnswer
-    val drawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
     when(val state = stateAnswer.value){
         is StateAnswer.Successfully->{
             scope.launch {
@@ -157,9 +163,6 @@ fun MainLessonScreen(
                         onResultScreen()
                     }else{
                         viewModelTwoBit.event(EventLesson.NextLesson)
-                        scope.launch {
-                            drawerState.close()
-                        }
                     }
                 }
             )
