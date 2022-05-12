@@ -24,7 +24,7 @@ class CreateAccountViewModel: ViewModel() {
 
             repositoryUser.testCreate(
                 ActiveUser(
-                    user = User(name = nameUser.value, surname = surnameUser.value, id = idUser),
+                    user = User(name = nameUser.value, surname = surnameUser.value, id = idUser, health = 5),
                     listStatistic = mutableListOf(Statistic(day = Date(), statTrack = 0f,
                         userOwnerId = idUser, idStatistic = java.util.Random().nextInt()))
                 )

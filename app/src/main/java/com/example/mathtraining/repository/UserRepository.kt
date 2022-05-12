@@ -16,7 +16,10 @@ class UserRepository(context: Context) {
     val user = userDao.getInfoUser()
     val isActiveNotification = userDao.getEnableNotification()
     val id = userDao.getId()
-
+    var health: LiveData<Int> = userDao.getHealthUser()
+    fun getHealth(): Int {
+        return userDao.getHealthUser2()
+    }
 
     val activeUser = userDao.getActiveUser()
 
@@ -42,7 +45,11 @@ class UserRepository(context: Context) {
         userDao.insert(statistic)
     }
 
-    suspend fun addStatTrackStar(statistic: Statistic, course: Course){
+    suspend fun addStatTrackStar(
+        statistic: Statistic,
+        course: Course,
+        value: Int
+    ){
         statistic.apply {
             if (course.isCorrectly){
                 currectAnswer += 1
@@ -54,6 +61,9 @@ class UserRepository(context: Context) {
             statTrack += 1f
         }
         userDao.updateStatistic(statistic)
+        val user = activeUser.value!!
+        user.user.health = value
+        userDao.updateUser(user.user)
     }
 
 

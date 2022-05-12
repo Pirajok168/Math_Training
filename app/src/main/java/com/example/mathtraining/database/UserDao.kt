@@ -3,6 +3,7 @@ package com.example.mathtraining.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Qualifier
 
 
 @Dao
@@ -12,6 +13,12 @@ interface UserDao {
 
     @Query("SELECT isActiveNotification FROM user_profile")
     fun getEnableNotification(): LiveData<Boolean>
+
+    @Query("SELECT health FROM user_profile")
+    fun getHealthUser(): LiveData<Int>
+
+    @Query("SELECT health FROM user_profile")
+    fun getHealthUser2(): Int
 
     @Query("SELECT id FROM user_profile")
     fun getId(): LiveData<Int>
@@ -44,6 +51,9 @@ interface UserDao {
 
     @Update
     suspend fun updateStatistic(statistic: Statistic)
+
+    @Update
+    suspend fun updateUser(user: User)
 
     @Transaction
     suspend fun testInsert(userActiveUser: ActiveUser){
