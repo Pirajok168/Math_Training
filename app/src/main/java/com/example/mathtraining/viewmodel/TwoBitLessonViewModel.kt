@@ -43,6 +43,14 @@ class TwoBitLessonViewModel(
     private val activeUser = userRepository.activeUser
 
 
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.e("testBase", courseRepository.courseListDatabase().size.toString())
+        }
+
+
+    }
+
 
     var countElemForLesson: MutableState<Int> = mutableStateOf(0)
     var passed: MutableState<Int> = mutableStateOf(0)

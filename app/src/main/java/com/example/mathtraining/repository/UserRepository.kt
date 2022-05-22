@@ -4,13 +4,15 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.example.mathtraining.database.*
+import java.io.File
 
 class UserRepository(context: Context) {
     private val database = Room.databaseBuilder(
         context,
         UserDatabase::class.java,
         "user_profile"
-    ).build()
+    )
+        .build()
 
     private val userDao = database.userDao()
     val user = userDao.getInfoUser()
